@@ -1,0 +1,62 @@
+[
+    {
+        "id": "user",
+        "type": "user",
+        "params": {
+            "firstName": "Bart",
+            "lastName": "Simpson",
+            "email": "{{email()}}",
+            "phone": "{{phone()}}"
+        },
+        "output": "firstName",
+        "children": [
+            {
+                "id": "firm",
+                "type": "firm",
+                "params": {
+                    "firmName": "Bart Simpson and Co.",
+                    "firmAddress": "742 Evergreen Terrace",
+                    "firmCity": "Springfield"
+                },
+                "childrenCount": "3",
+                "childrenTemplate": {
+                    "id": "client",
+                    "type": "client",
+                    "params": {
+                        "firstName": "{{firstName()}}",
+                        "lastName": "{{lastName()}}",
+                        "ssn": "{{ssn()}}",
+                        "email": "{{email()}}",
+                        "type": "IND"
+                    },
+                    "output": {
+                        "renamedSsn": "ssn",
+                        "renamedEmail": "email"
+                    },
+                    "children": [
+                        {
+                            "id": "taxreturn",
+                            "type": "taxreturn",
+                            "params": {
+                                "type": "1040",
+                                "returnName": "Some 1040"
+                            },
+                            "output": {
+                                "renamedReturnName": "returnName"
+                            }
+                        },
+                        {
+                            "id": "taxreturn",
+                            "type": "taxreturn",
+                            "params": {
+                                "type": "1120",
+                                "returnName": "Some 1120"
+                            },
+                            "output": ["returnName"]
+                        }
+                    ]
+                }
+            }
+        ]
+    }
+]

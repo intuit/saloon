@@ -1,0 +1,110 @@
+{
+  "name": "saloon",
+  "version": "1.0.0",
+  "description": "An E2E Test Seeder for Enterprise Web Applications",
+  "module": "dist/main.js",
+  "main": "src/main.js",
+  "scripts": {
+    "build": "npm-run-all --parallel build:lib build:debug build:module",
+    "build:watch": "npm run build:module -- --watch",
+    "build:lib": "webpack",
+    "build:debug": "webpack --env.debug",
+    "build:module": "babel -d dist/module src --ignore /'__tests__'/",
+    "test": "cross-env NODE_ENV=test nyc ava",
+    "test:watch": "cross-env NODE_ENV=test ava --watch",
+    "test:debug": "cross-env NODE_ENV=test inspect ./node_modules/ava/profile.js",
+    "posttest": "npm run lint",
+    "lint": "eslint src --ignore-pattern __tests__",
+    "prepublish": "npm build",
+    "publish:major": "npm version major && npm publish && git push && git push --tags",
+    "publish:minor": "npm version minor && npm publish && git push && git push --tags",
+    "publish:patch": "npm version patch && npm publish && git push && git push --tags ",
+    "example": "babel-node --presets es2015 examples/simple/index.js",
+    "docs": "./node_modules/.bin/jsdoc src -r --destination docs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/intuit/saloon.git"
+  },
+  "author": "James Wilson <james_wilson@intuit.com>",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "axios": "0.18.0",
+    "chance": "1.0.13",
+    "winston": "^2.4.1"
+  },
+  "devDependencies": {
+    "ava": "0.25.0",
+    "babel-cli": "^6.24.1",
+    "babel-eslint": "8.2.2",
+    "babel-loader": "7.1.4",
+    "babel-plugin-istanbul": "4.1.5",
+    "babel-plugin-transform-object-rest-spread": "6.26.0",
+    "babel-plugin-transform-runtime": "6.23.0",
+    "babel-preset-env": "1.6.1",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-register": "^6.26.0",
+    "bluebird": "3.5.1",
+    "cross-env": "5.1.3",
+    "eslint": "4.18.2",
+    "jsdoc": "3.5.5",
+    "npm-run-all": "^4.0.2",
+    "nyc": "10.3.2",
+    "restify": "^4.x",
+    "sinon": "4.4.2",
+    "webpack": "^2.4.1",
+    "webpack-node-externals": "^1.5.4"
+  },
+  "babel": {
+    "presets": [
+      "es2015",
+      "env"
+    ],
+    "env": {
+      "test": {
+        "plugins": [
+          "istanbul"
+        ]
+      }
+    },
+    "plugins": [
+      "transform-object-rest-spread",
+      [
+        "transform-runtime",
+        {
+          "polyfill": false,
+          "regenerator": true
+        }
+      ]
+    ]
+  },
+  "ava": {
+    "require": [
+      "babel-register"
+    ],
+    "babel": "inherit",
+    "verbose": true,
+    "concurrency": 8
+  },
+  "nyc": {
+    "require": [
+      "babel-register"
+    ],
+    "lines": 75,
+    "check-coverage": true,
+    "all": true,
+    "extension": [
+      ".js"
+    ],
+    "include": [
+      "src/**/*.js"
+    ],
+    "reporter": [
+      "text",
+      "html",
+      "cobertura"
+    ],
+    "sourceMap": false,
+    "instrument": false
+  }
+}
