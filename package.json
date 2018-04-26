@@ -27,7 +27,7 @@
     "url": "https://github.com/intuit/saloon.git"
   },
   "author": "James Wilson <james_wilson@intuit.com>",
-  "license": "Apache-2.0",
+  "license": "apache-2.0",
   "dependencies": {
     "axios": "0.18.0",
     "chance": "1.0.13",
