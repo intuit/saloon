@@ -1,4 +1,7 @@
 # saloon
+## Persona-Based Test Seeding
+[![Build Status](https://travis-ci.org/intuit/saloon.svg?branch=master)](https://travis-ci.org/intuit/saloon) [![GitHub release](https://img.shields.io/github/release/intuit/saloon.svg)](https://github.com/intuit/saloon/releases)
+
 Seeding real-life test data can be very complicated. There are typically a number of services, some that can run concurrently and some that have dependencies on others.
 
 Saloon is a Javascript library that can either be consumed by a test framework or run directly as a command line tool. The framework supplies two pieces to the engine: 1) __API "definitions"__, which tell the engine how and where to create each resource, and 2) __personas__, which are JSON schema trees showing parent/child relationships of all of an application's resources and test data for each resource.
