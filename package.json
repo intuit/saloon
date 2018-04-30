@@ -19,7 +19,7 @@
     "publish:major": "npm version major && npm publish && git push && git push --tags",
     "publish:minor": "npm version minor && npm publish && git push && git push --tags",
     "publish:patch": "npm version patch && npm publish && git push && git push --tags ",
-    "example": "babel-node --presets es2015 examples/simple/index.js",
+    "example": "babel-node --presets env examples/simple/index.js",
     "docs": "./node_modules/.bin/jsdoc src -r --destination docs"
   },
   "repository": {
@@ -42,7 +42,6 @@
     "babel-plugin-transform-object-rest-spread": "6.26.0",
     "babel-plugin-transform-runtime": "6.23.0",
     "babel-preset-env": "1.6.1",
-    "babel-preset-es2015": "^6.24.1",
     "babel-register": "^6.26.0",
     "bluebird": "3.5.1",
     "cross-env": "5.1.3",
@@ -57,7 +56,6 @@
   },
   "babel": {
     "presets": [
-      "es2015",
       "env"
     ],
     "env": {
