@@ -1,7 +1,6 @@
 /* eslint-env node */
 
 import restify from 'restify';
-import Promise from 'bluebird';
 import _ from 'lodash';
 
 
@@ -78,7 +77,6 @@ const router = (server) => {
 /**
  * SERVER
  */
-const deferred = Promise.defer();
 const port = process.env.PORT || 3000;
 const server = restify.createServer();
 
@@ -88,15 +86,15 @@ server.use(restify.bodyParser());
 
 router(server);
 
-server.listen(port, (err) => {
-  if (err) {
-    console.error(err); // eslint-disable-line no-console
-    deferred.reject();
-  } else {
-    deferred.resolve();
-  }
-});
-
 export default {
-  ready: deferred.promise
+  ready: new Promise((resolve, reject) => {
+    server.listen(port, (err) => {
+      if (err) {
+        console.error(err); // eslint-disable-line no-console
+        reject();
+      } else {
+        resolve();
+      }
+    });
+  })
 };
