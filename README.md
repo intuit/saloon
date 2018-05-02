@@ -32,7 +32,7 @@ There is one example provided:
 - A simple example backed by a local, mocked REST API.
 ```
 npm install
-npm run simple
+npm run example
 ```
 
 # Definitions
