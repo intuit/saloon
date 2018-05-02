@@ -2,8 +2,8 @@
   "name": "saloon",
   "version": "1.0.0",
   "description": "An E2E Test Seeder for Enterprise Web Applications",
-  "module": "dist/main.js",
-  "main": "src/main.js",
+  "main": "dist/saloon.js",
+  "module": "dist/module/main.js",
   "scripts": {
     "build": "npm-run-all --parallel build:lib build:debug build:module",
     "build:watch": "npm run build:module -- --watch",
