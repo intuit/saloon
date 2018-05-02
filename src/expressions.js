@@ -38,6 +38,7 @@ function parse(exp) {
  * @returns {Object} The evaluated parameters to be seeded.
  */
 export function expressionEvaluator(data) {
+    console.log(data)
     for (const key in data) {
         if (!data[key] || typeof data[key] !== 'string') {
             return data[key];

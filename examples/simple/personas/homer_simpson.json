@@ -8,7 +8,6 @@
             "email": "homer_simpson@gmail.com",
             "phone": "214-123-4567"
         },
-        "output": "firstName",
         "children": [
             {
                 "id": "firm",
@@ -18,7 +17,6 @@
                     "firmAddress1": "742 Evergreen Terrace",
                     "firmCity": "Springfield"
                 },
-                "output": ["firmAddress1", "firmCity", "firm_id"],
                 "children": [
                     {
                         "id": "client-moe",
@@ -37,8 +35,7 @@
                                 "params": {
                                     "type": "1040",
                                     "returnName": "Moe Szyslak's 1040"
-                                },
-                                "output": [{ "returnName1": "returnName" }]
+                                }
                             }
                         ]
                     },
@@ -59,8 +56,7 @@
                                 "params": {
                                     "type": "1040",
                                     "returnName": "Apu Nahasapeemapetilon's 1040"
-                                },
-                                "output": [{ "returnName2": "returnName" }]
+                                }
                             }
                         ]
                     },
@@ -80,8 +76,7 @@
                                 "params": {
                                     "type": "1120",
                                     "returnName": "Springfield Nuclear Plant's 1120"
-                                },
-                                "output": [{ "returnName3": "returnName" }]
+                                }
                             }
                         ]
                     }

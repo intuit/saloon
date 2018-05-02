@@ -8,7 +8,6 @@
             "email": "{{email()}}",
             "phone": "{{phone()}}"
         },
-        "output": "firstName",
         "children": [
             {
                 "id": "firm",
@@ -29,10 +28,6 @@
                         "email": "{{email()}}",
                         "type": "IND"
                     },
-                    "output": {
-                        "renamedSsn": "ssn",
-                        "renamedEmail": "email"
-                    },
                     "children": [
                         {
                             "id": "taxreturn",
@@ -40,9 +35,6 @@
                             "params": {
                                 "type": "1040",
                                 "returnName": "Some 1040"
-                            },
-                            "output": {
-                                "renamedReturnName": "returnName"
                             }
                         },
                         {
@@ -51,8 +43,7 @@
                             "params": {
                                 "type": "1120",
                                 "returnName": "Some 1120"
-                            },
-                            "output": ["returnName"]
+                            }
                         }
                     ]
                 }
