@@ -1,6 +1,5 @@
 import { templateProcessor } from "./templates";
 import { expressionEvaluator } from "./expressions";
-import util from "util";
 
 export const parsePersona = persona => {
   return pathPersona(expressPersona(templatePersona(persona)));

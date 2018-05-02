@@ -1,5 +1,5 @@
 import server from '../../server';
-import { seed, setDefinitions, setLoggingLevel} from '../../src/main';
+import { seed, setDefinitions, setLoggingLevel } from '../../src/main';
 import personas from './personas';
 import definitions from './definitions';
 import util from 'util';
