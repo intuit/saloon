@@ -3,7 +3,7 @@ import logger from './logger';
 import DefinitionRegistry from './definitions';
 import OutputStore from './output';
 import { parsePersona } from './preprocessor';
-import util from 'util';
+
 /**
  * The seeder. The big kahuna.
  * @class
@@ -31,10 +31,9 @@ export class Seeder {
    * @access public
    * @async
    */
-  async seed(persona, cb = function() {}) {
+  async seed(persona, cb = function () {}) {
     logger.info('Init Seeding');
     const parsedPersona = parsePersona(persona);
-    console.log('Output data', util.inspect(parsedPersona, false, 20, true)); // eslint-disable-line no-console
     this._output.clear();
     await this._save(parsedPersona);
     const output = this._output.get();
@@ -59,7 +58,7 @@ export class Seeder {
       resources,
       parentData,
       (resource, definition, resolve, reject) => {
-        let data = Object.assign({}, resource.params, definition.body || {});
+        const data = Object.assign({}, resource.params, definition.body || {});
 
         logger.info(`Seeding ${resource.id}`);
         logger.debug(data);
@@ -75,13 +74,9 @@ export class Seeder {
       },
     );
 
-    return Promise.all(promises).then(values => {
-      return Promise.all(
-        values.map(({ resources, parentData }) => {
-          return resources ? this._save(resources, parentData) : null;
-        }),
-      );
-    });
+    return Promise.all(promises).then(values =>
+      Promise.all(values.map(({ resources, parentData }) =>
+        (resources ? this._save(resources, parentData) : null))));
   }
 
   /**
@@ -110,7 +105,7 @@ export class Seeder {
    * @access private
    */
   _saveError(resource, reject, error) {
-    reject(error);
+    this.reject(error);
     logger.warn(`Error seeding ${resource.id}: ${error}`);
   }
 
@@ -126,21 +121,19 @@ export class Seeder {
     const promises = [];
 
     resources.forEach((resource, i) => {
-      promises.push(
-        new Promise((resolve, reject) => {
-          const definition = this._definitions.get(resource, parentData);
+      promises.push(new Promise((resolve, reject) => {
+        const definition = this._definitions.get(resource, parentData);
 
-          if (!definition) {
-            logger.warn(`Could not find resource: ${resource.type}`);
-            resolve({ resources: resources[i].children });
-            return;
-          }
+        if (!definition) {
+          logger.warn(`Could not find resource: ${resource.type}`);
+          resolve({ resources: resources[i].children });
+          return;
+        }
 
-          setTimeout(() => {
-            cb(resource, definition, resolve, reject);
-          }, (definition.throttle || 0) * i);
-        }),
-      );
+        setTimeout(() => {
+          cb(resource, definition, resolve, reject);
+        }, (definition.throttle || 0) * i);
+      }));
     });
 
     return promises;

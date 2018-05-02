@@ -1,21 +1,5 @@
-import { templateProcessor } from "./templates";
-import { expressionEvaluator } from "./expressions";
-
-export const parsePersona = persona => {
-  return pathPersona(expressPersona(templatePersona(persona)));
-};
-
-export const templatePersona = persona => {
-  return persona.map(layer => peel(layer, template));
-};
-
-export const expressPersona = persona => {
-  return persona.map(layer => peel(layer, express));
-};
-
-export const pathPersona = persona => {
-  return persona.map((layer, i) => peel(layer, path, i));
-};
+import templateProcessor from './templates';
+import { expressionEvaluator } from './expressions';
 
 const peel = (layer, cb, i, path) => {
   layer = cb(layer, i, path);
@@ -23,20 +7,18 @@ const peel = (layer, cb, i, path) => {
     return {
       ...layer,
       children: layer.children.map((resource, i) =>
-        peel(resource, cb, i, layer.path)
-      )
+        peel(resource, cb, i, layer.path)),
     };
-  } else {
-    return layer;
   }
+  return layer;
 };
 
-/*eslint-disable no-unused-vars */
-const template = layer => {
+/* eslint-disable no-unused-vars */
+const template = (layer) => {
   if (layer.childrenTemplate) {
     const transformedLayer = {
       ...layer,
-      children: templateProcessor(layer)
+      children: templateProcessor(layer),
     };
     const {
       childrenCount,
@@ -45,17 +27,14 @@ const template = layer => {
     } = transformedLayer;
 
     return transformedLayerWithOmittedProps;
-  } else {
-    return layer;
   }
+  return layer;
 };
 
-const express = layer => {
-  return {
-    ...layer,
-    params: expressionEvaluator({ ...layer.params })
-  };
-};
+const express = layer => ({
+  ...layer,
+  params: expressionEvaluator({ ...layer.params }),
+});
 
 const path = (layer, i, path) => {
   const parentPath = path;
@@ -63,6 +42,18 @@ const path = (layer, i, path) => {
     ...layer,
     path: parentPath
       ? `${parentPath}.${layer.type}[${i}]`
-      : `${layer.type}[${i}]`
+      : `${layer.type}[${i}]`,
   };
 };
+
+export const templatePersona = persona =>
+  persona.map(layer => peel(layer, template));
+
+export const expressPersona = persona =>
+  persona.map(layer => peel(layer, express));
+
+export const pathPersona = persona =>
+  persona.map((layer, i) => peel(layer, path, i));
+
+export const parsePersona = persona =>
+  pathPersona(expressPersona(templatePersona(persona)));

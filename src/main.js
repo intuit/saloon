@@ -1,5 +1,6 @@
 import logger from './logger';
 import seeder from './seeder';
+
 export const setLoggingLevel = logger.setLoggingLevel.bind(logger);
 export const logToFile = logger.logToFile.bind(logger);
 

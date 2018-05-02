@@ -4,22 +4,20 @@ import restify from 'restify';
 import Promise from 'bluebird';
 import _ from 'lodash';
 
-
 /**
  * COLLECTIONS
  */
-let users = [];
-let firms = [];
-let clients = [];
-let returns = [];
-
+const users = [];
+const firms = [];
+const clients = [];
+const returns = [];
 
 /**
  * ROUTER
  */
 const router = (server) => {
   server.post('/api/user', (req, res, next) => {
-    let newUser = req.params;
+    const newUser = req.params;
 
     newUser.user_id = '123';
     users.push(newUser);
@@ -29,10 +27,10 @@ const router = (server) => {
   });
 
   server.post('/api/firm', (req, res, next) => {
-    let newFirm = req.params;
+    const newFirm = req.params;
 
-    if (!_.find(users, (user) => user.user_id === newFirm.user_id)) {
-      res.send(400, {error: 'User not found'});
+    if (!_.find(users, user => user.user_id === newFirm.user_id)) {
+      res.send(400, { error: 'User not found' });
       return next();
     }
 
@@ -44,14 +42,14 @@ const router = (server) => {
   });
 
   server.post('/api/client', (req, res, next) => {
-    let newClient = req.params;
+    const newClient = req.params;
 
-    if (!_.find(firms, (firm) => firm.firm_id === newClient.firm_id)) {
-      res.send(400, {error: 'Firm not found'});
+    if (!_.find(firms, firm => firm.firm_id === newClient.firm_id)) {
+      res.send(400, { error: 'Firm not found' });
       return next();
     }
 
-    newClient.client_id ='213';
+    newClient.client_id = '213';
     clients.push(newClient);
 
     res.send(201, newClient);
@@ -59,10 +57,10 @@ const router = (server) => {
   });
 
   server.post('/api/taxreturn', (req, res, next) => {
-    let newReturn = req.params;
+    const newReturn = req.params;
 
-    if (!_.find(clients, (client) => client.client_id === newReturn.client_id)) {
-      res.send(400, {error: 'Client not found'});
+    if (!_.find(clients, client => client.client_id === newReturn.client_id)) {
+      res.send(400, { error: 'Client not found' });
       return next();
     }
 
@@ -73,7 +71,6 @@ const router = (server) => {
     return next();
   });
 };
-
 
 /**
  * SERVER
@@ -98,5 +95,5 @@ server.listen(port, (err) => {
 });
 
 export default {
-  ready: deferred.promise
+  ready: deferred.promise,
 };

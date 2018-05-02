@@ -30,9 +30,7 @@ export default class DefinitionRegistry {
    * @access public
    */
   get(resource, parentData) {
-    const definition = this._definitions.find(
-      def => def.type === resource.type,
-    );
+    const definition = this._definitions.find(def => def.type === resource.type);
 
     if (!definition) {
       logger.warn(`Definition could not be found: ${resource.type}`);

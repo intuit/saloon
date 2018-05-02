@@ -44,7 +44,7 @@ function domain() {
 
 function ein() {
   return [...Array(10).keys()]
-    .map(i => {
+    .map((i) => {
       if (i < 2) return Math.floor(Math.random() * 9);
       if (i == 2) return '-';
       return Math.floor(Math.random() * 10);

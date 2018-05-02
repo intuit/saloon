@@ -22,13 +22,13 @@ function parse(exp) {
   let args = exp.substring(fnArgsStart + 1, fnArgsEnd);
 
   if (args.length) {
-    args = args.split(',').map(arg => {
+    args = args.split(',').map((arg) => {
       const parsed = parseInt(arg, 10);
       return isNaN(parsed) ? arg.trim().replace(/'/g, '') : parsed;
     });
   }
 
-  return expressionFns[fnName].apply(expressionFns, args || []);
+  return expressionFns[fnName](...args || []);
 }
 
 /**
@@ -37,7 +37,6 @@ function parse(exp) {
  * @returns {Object} The evaluated parameters to be seeded.
  */
 export function expressionEvaluator(data) {
-  console.log(data);
   for (const key in data) {
     if (!data[key] || typeof data[key] !== 'string') {
       return data[key];
