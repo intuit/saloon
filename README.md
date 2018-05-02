@@ -31,8 +31,8 @@ seed(homer_simpson, output => {
 There is one example provided:
 - A simple example backed by a local, mocked REST API.
 ```
-npm install
-npm run example
+yarn install
+yarn run example
 ```
 
 # Definitions
