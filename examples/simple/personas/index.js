@@ -1,10 +1,9 @@
-import bart_simpson from './bart_simpson';
-import homer_simpson from './homer_simpson';
+import bartSimpson from './bart_simpson.json';
+import homerSimpson from './homer_simpson.json';
 
-export { bart_simpson, homer_simpson };
+export { bartSimpson, homerSimpson };
 
 export default {
-  bart_simpson,
-  homer_simpson
+  bartSimpson,
+  homerSimpson,
 };
-
