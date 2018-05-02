@@ -1,63 +1,53 @@
-{
-  user: [
-    {
-      firstName: "Bart",
-      lastName: "Simpson",
-      email: "tibelod@ipasiz.pg",
-      phone: "(270) 789-5299",
-      user_id: "123"
-    }
-  ],
-  firm: [
-    {
-      firmName: "Bart Simpson and Co.",
-      firmAddress: "742 Evergreen Terrace",
-      firmCity: "Springfield",
-      user_id: "123",
-      firm_id: "321"
-    }
-  ],
-  client: [
-    {
-      firstName: "Jeremiah",
-      lastName: "defaultLastName",
-      ssn: "346-97-2759",
-      email: "lul@mitru.ye",
-      type: "IND",
-      firm_id: "321",
-      client_id: "213"
-    },
-    {
-      firstName: "Helen",
-      lastName: "defaultLastName",
-      ssn: "715-10-8124",
-      email: "ika@fec.lt",
-      type: "IND",
-      firm_id: "321",
-      client_id: "213"
-    },
-    {
-      firstName: "Katharine",
-      lastName: "defaultLastName",
-      ssn: "635-74-6289",
-      email: "davaunu@maak.ye",
-      type: "IND",
-      firm_id: "321",
-      client_id: "213"
-    }
-  ],
-  taxreturn: [
-    {
-      type: "1040",
-      returnName: "Some 1040",
-      client_id: "213",
-      return_id: "3124"
-    },
-    {
-      type: "1120",
-      returnName: "Some 1120",
-      client_id: "213",
-      return_id: "3124"
-    }
-  ]
-}
+[
+  {
+      "id": "user",
+      "type": "user",
+      "params": {
+          "firstName": "Bart",
+          "lastName": "Simpson",
+          "email": "{{email()}}",
+          "phone": "{{phone()}}"
+      },
+      "children": [
+          {
+              "id": "firm",
+              "type": "firm",
+              "params": {
+                  "firmName": "Bart Simpson and Co.",
+                  "firmAddress": "742 Evergreen Terrace",
+                  "firmCity": "Springfield"
+              },
+              "childrenCount": "3",
+              "childrenTemplate": {
+                  "id": "client",
+                  "type": "client",
+                  "params": {
+                      "firstName": "{{firstName()}}",
+                      "lastName": "{{lastName()}}",
+                      "ssn": "{{ssn()}}",
+                      "email": "{{email()}}",
+                      "type": "IND"
+                  },
+                  "children": [
+                      {
+                          "id": "taxreturn",
+                          "type": "taxreturn",
+                          "params": {
+                              "type": "1040",
+                              "returnName": "Some 1040"
+                          }
+                      },
+                      {
+                          "id": "taxreturn",
+                          "type": "taxreturn",
+                          "params": {
+                              "type": "1120",
+                              "returnName": "Some 1120"
+                          }
+                      }
+                  ]
+              }
+          }
+      ]
+  }
+]
