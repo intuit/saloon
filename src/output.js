@@ -1,4 +1,4 @@
-import { set } from 'lodash';
+import set from 'lodash.set';
 /**
  * A store for keeping track of and processing of all seeding output.
  * @class

@@ -1,26 +1,29 @@
 import { templateResource } from "./templates";
 import { expressResource } from "./expressions";
 
-export const parsePersona = persona => pathPersona(expressPersona(templatePersona(persona)));
-export const templatePersona = persona => persona.map(layer => iterateResource(layer, templateResource));
-export const expressPersona = persona => persona.map(layer => iterateResource(layer, expressResource));
-export const pathPersona = persona => persona.map((layer, i) => iterateResource(layer, pathResource, i));
+export const parsePersona = persona => iteratePersona(iteratePersona(iteratePersona(persona, templateResource), expressResource), pathResource);
 
-const iterateResource = (resource, callback, i, parentPath) => {
-  const parsedResource = callback(resource, i, parentPath);
-  const {children, path: currentPath} = parsedResource;
-  if (children) {
-    return {
-      ...parsedResource,
-      children: children.map((resource, i) => iterateResource(resource, callback, i, currentPath)
-      )
+function iteratePersona (persona, callback) {
+    const iterateResource = (resource, callback, i, parentPath) => {
+        const parsedResource = callback(resource, i, parentPath);
+        const {children, path: currentPath} = parsedResource;
+        if (children) {
+          return {
+            ...parsedResource,
+            children: children.map((resource, i) => iterateResource(resource, callback, i, currentPath)
+            )
+          };
+        } else {
+          return parsedResource;
+        }
     };
-  } else {
-    return parsedResource;
-  }
-};
 
-const pathResource = (resource = {}, i, parentPath) => {
+    return persona.map((resource, i) => {
+      return iterateResource(resource, callback, i);
+    });
+}
+
+function pathResource (resource = {}, i, parentPath) {
   const { type } = resource;
   return {
     ...resource,
@@ -28,4 +31,4 @@ const pathResource = (resource = {}, i, parentPath) => {
       ? `${parentPath}.${type}[${i}]`
       : `${type}[${i}]`
   };
-};
+}
