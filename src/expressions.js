@@ -37,7 +37,7 @@ function parse(exp) {
  * @param {Object} data The parameters to be seeded.
  * @returns {Object} The evaluated parameters to be seeded.
  */
-function expressionEvaluator(data) {
+export function expressionEvaluator(data) {
    let newData = {...data};
     for (const key in newData) {
         if (!newData[key] || typeof newData[key] !== 'string') {
