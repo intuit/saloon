@@ -1,18 +1,8 @@
 import axios from 'axios';
-import { expressionEvaluator } from './expressions';
 import logger from './logger';
-import { templateProcessor } from './templates';
 import DefinitionRegistry from './definitions';
 import OutputStore from './output';
-
-/**
- * Returns the supplied children or those generated from a template.
- * @param {Object} resource The seeded parent resource.
- * @returns {Array} Children resources
- */
-function getChildren(resource) {
-    return resource.childrenTemplate ? templateProcessor(resource) : resource.children;
-}
+import { parsePersona } from './preprocessor';
 
 /**
  * The seeder. The big kahuna.
@@ -43,15 +33,12 @@ export class Seeder {
      */
     async seed(persona, cb = function() {}) {
         logger.info('Init Seeding');
-
+        const parsedPersona = parsePersona(persona);
         this._output.clear();
-
-        await this._save(persona);
+        await this._save(parsedPersona);
         const output = this._output.get();
-        
         logger.info('Finished Seeding');
         logger.debug(output);
-
         cb(output);
         return output;
     }
@@ -73,7 +60,6 @@ export class Seeder {
             (resource, definition, resolve, reject) => {
 
             let data = Object.assign({}, resource.params, definition.body || {});
-            data = expressionEvaluator(data);
 
             logger.info(`Seeding ${resource.id}`);
             logger.debug(data);
@@ -108,12 +94,10 @@ export class Seeder {
         if (!response) {
             logger.warn(`Nothing returned by resource API: ${resource.type}`);
         }
-
+        this._output.insert(resource.path, response.data);
         logger.info(`Finished seeding ${resource.id}`);
-
-        this._output.insert(response.data, resource.output);
         parentData[resource.type] = response.data;
-        resolve({ resources: getChildren(resource), parentData });
+        resolve({ resources: resource.children, parentData });
     }
 
     /**
@@ -140,7 +124,6 @@ export class Seeder {
         const promises = [];
 
         resources.forEach((resource, i) => {
-
             promises.push(new Promise((resolve, reject) => {
                 const definition = this._definitions.get(resource, parentData);
 

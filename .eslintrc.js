@@ -1,9 +1,6 @@
 module.exports = {
     "rules": {
-        "linebreak-style": [
-            2,
-            "unix"
-        ],
+        "linebreak-style": [0],
         "semi": [
             2,
             "always"
