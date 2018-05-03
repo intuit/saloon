@@ -14,7 +14,7 @@
     "test:watch": "cross-env NODE_ENV=test ava --watch",
     "test:debug": "cross-env NODE_ENV=test inspect ./node_modules/ava/profile.js",
     "posttest": "npm run lint",
-    "lint": "eslint --ignore-pattern __tests__",
+    "lint": "eslint src examples server --ignore-pattern __tests__",
     "prepublish": "npm build",
     "publish:major": "npm version major && npm publish && git push && git push --tags",
     "publish:minor": "npm version minor && npm publish && git push && git push --tags",

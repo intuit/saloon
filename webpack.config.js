@@ -1,9 +1,9 @@
 /* eslint-env node */
 
-var path = require('path');
-var webpack = require('webpack');
-var _ = require('lodash');
-var nodeExternals = require('webpack-node-externals');
+const path = require('path');
+const webpack = require('webpack');
+const _ = require('lodash');
+const nodeExternals = require('webpack-node-externals');
 
 module.exports = function (options = {}) {
   const filename = options.debug ? 'saloon.debug.js' : 'saloon.js';
@@ -14,22 +14,22 @@ module.exports = function (options = {}) {
       path: path.resolve(__dirname, 'dist'),
       filename,
       library: 'saloon',
-      libraryTarget: 'umd'
+      libraryTarget: 'umd',
     },
     module: {
       rules: [{
         test: /\.js$/,
         include: [
-          path.resolve(__dirname, 'src')
+          path.resolve(__dirname, 'src'),
         ],
-        loader: 'babel-loader'
-      }]
+        loader: 'babel-loader',
+      }],
     },
     target: 'node',
     externals: [nodeExternals()],
     plugins: [
       new webpack.DefinePlugin({
-        __DEBUG__: options.debug
+        __DEBUG__: options.debug,
       }),
 
       options.debug ?
@@ -37,9 +37,9 @@ module.exports = function (options = {}) {
         new webpack.optimize.UglifyJsPlugin({
           comments: false,
           compress: {
-            warnings: false
-          }
-        })
-      ]
-  }
-}
+            warnings: false,
+          },
+        }),
+    ],
+  };
+};
