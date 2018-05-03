@@ -10,26 +10,25 @@ const EXP_END = '}}';
  * @returns {string} The parsed model value.
  */
 function parse(exp) {
-    const fnArgsStart = exp.indexOf('(');
-    const fnArgsEnd = exp.indexOf(')');
-    const fnName = exp.substring(2, fnArgsStart);
+  const fnArgsStart = exp.indexOf('(');
+  const fnArgsEnd = exp.indexOf(')');
+  const fnName = exp.substring(2, fnArgsStart);
 
-    if (typeof expressionFns[fnName] !== 'function') {
-        logger.warn(`Expression function not found: ${fnName}`);
-        return exp;
-    }
+  if (typeof expressionFns[fnName] !== 'function') {
+    logger.warn(`Expression function not found: ${fnName}`);
+    return exp;
+  }
 
-    let args = exp.substring(fnArgsStart + 1, fnArgsEnd);
+  let args = exp.substring(fnArgsStart + 1, fnArgsEnd);
 
-    if (args.length) {
-        args = args.split(',').map(arg => {
-            const parsed = parseInt(arg, 10);
-            return isNaN(parsed) ? arg.trim().replace(/'/g, '') : parsed;
-        });
+  if (args.length) {
+    args = args.split(',').map((arg) => {
+      const parsed = parseInt(arg, 10);
+      return Number.isNaN(parsed) ? arg.trim().replace(/'/g, '') : parsed;
+    });
+  }
 
-    }
-
-    return expressionFns[fnName].apply(expressionFns, args || []);
+  return expressionFns[fnName](...args || []);
 }
 
 /**
@@ -38,25 +37,27 @@ function parse(exp) {
  * @returns {Object} The evaluated parameters to be seeded.
  */
 export function expressionEvaluator(data) {
-   let newData = {...data};
-    for (const key in newData) {
-        if (!newData[key] || typeof newData[key] !== 'string') {
-            return newData[key];
-        }
-
-        const start = newData[key].indexOf(EXP_START);
-        const end = newData[key].indexOf(EXP_END);
-
-        if (start !== -1 && end !== -1) {
-            newData[key] = parse(newData[key]);
-        }
+  const newData = { ...data };
+  Object.entries(newData).forEach(([key]) => {
+    if (!newData[key] || typeof newData[key] !== 'string') {
+      return newData[key];
     }
-    return newData;
+
+    const start = newData[key].indexOf(EXP_START);
+    const end = newData[key].indexOf(EXP_END);
+
+    if (start !== -1 && end !== -1) {
+      newData[key] = parse(newData[key]);
+    }
+    return true;
+  });
+
+  return newData;
 }
 
 export function expressResource(resource) {
   return {
     ...resource,
-    params: expressionEvaluator(resource.params)
+    params: expressionEvaluator(resource.params),
   };
 }

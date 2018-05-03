@@ -5,12 +5,11 @@ import { seed, setDefinitions, setLoggingLevel } from '../../src/main';
 import { bartSimpson } from './personas';
 import definitions from './definitions';
 
-
 server.ready.then(() => {
   setLoggingLevel('info');
   setDefinitions(definitions);
   seed(bartSimpson).then((output) => {
-    console.log('Output data', util.inspect(output, false, 20, true)); // eslint-disable-line no-console
+    console.log('Output data', util.inspect(output, false, 20, true));
     process.exit();
   });
 });

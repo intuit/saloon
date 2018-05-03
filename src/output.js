@@ -4,39 +4,38 @@ import set from 'lodash.set';
  * @class
  */
 export default class OutputStore {
-    constructor() {
-
-        /**
+  constructor() {
+    /**
          * The output store.
          * @type {Object}
          * @access private
          */
-        this._store = {};
-    }
+    this._store = {};
+  }
 
-    /**
+  /**
      * Adds additional seeded values to the store.
-     * @param {Object} values 
+     * @param {Object} values
      * @access public
      */
-    insert(parentPath, data) {
-        set(this._store, parentPath, data);
-    }
+  insert(parentPath, data) {
+    set(this._store, parentPath, data);
+  }
 
-    /**
+  /**
      * Simple getter for the store.
      * @returns {Object} The store.
      * @access public
      */
-    get() {
-        return this._store;
-    }
+  get() {
+    return this._store;
+  }
 
-    /**
+  /**
      * Empties the output store.
      * @access public
      */
-    clear() {
-        this._store = {};
-    }
+  clear() {
+    this._store = {};
+  }
 }
