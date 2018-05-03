@@ -7,3 +7,4 @@ coverage
 docs
 .vscode
 package-lock.json
+.prettierrc
