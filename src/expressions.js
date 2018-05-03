@@ -34,10 +34,10 @@ function parse(exp) {
 
 /**
  * Evaluates each expression within a collection of params.
- * @param {Object} newData The parameters to be seeded.
+ * @param {Object} data The parameters to be seeded.
  * @returns {Object} The evaluated parameters to be seeded.
  */
-export function expressionEvaluator(data) {
+function expressionEvaluator(data) {
    let newData = {...data};
     for (const key in newData) {
         if (!newData[key] || typeof newData[key] !== 'string') {
@@ -52,4 +52,11 @@ export function expressionEvaluator(data) {
         }
     }
     return newData;
+}
+
+export function expressResource(resource) {
+  return {
+    ...resource,
+    params: expressionEvaluator(resource.params)
+  };
 }

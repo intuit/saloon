@@ -1,67 +1,31 @@
-import { templateProcessor } from "./templates";
-import { expressionEvaluator } from "./expressions";
-
+import { templateResource } from "./templates";
+import { expressResource } from "./expressions";
 
 export const parsePersona = persona => pathPersona(expressPersona(templatePersona(persona)));
+export const templatePersona = persona => persona.map(layer => iterateResource(layer, templateResource));
+export const expressPersona = persona => persona.map(layer => iterateResource(layer, expressResource));
+export const pathPersona = persona => persona.map((layer, i) => iterateResource(layer, pathResource, i));
 
-export const templatePersona = persona => {
-  return persona.map(layer => peel(layer, template));
-};
-
-export const expressPersona = persona => {
-  return persona.map(layer => peel(layer, express));
-};
-
-export const pathPersona = persona => {
-  return persona.map((layer, i) => peel(layer, path, i));
-};
-
-const peel = (layer, cb, i, path) => {
-  layer = cb(layer, i, path);
-  if (layer.children) {
+const iterateResource = (resource, callback, i, parentPath) => {
+  const parsedResource = callback(resource, i, parentPath);
+  const {children, path: currentPath} = parsedResource;
+  if (children) {
     return {
-      ...layer,
-      children: layer.children.map((resource, i) =>
-        peel(resource, cb, i, layer.path)
+      ...parsedResource,
+      children: children.map((resource, i) => iterateResource(resource, callback, i, currentPath)
       )
     };
   } else {
-    return layer;
+    return parsedResource;
   }
 };
 
-/*eslint-disable no-unused-vars */
-const template = layer => {
-  if (layer.childrenTemplate) {
-    const transformedLayer = {
-      ...layer,
-      children: (layer.children = templateProcessor(layer))
-    };
-
-    const {
-      childrenCount,
-      childrenTemplate,
-      ...transformedLayerWithOmittedProps
-    } = transformedLayer;
-    return transformedLayerWithOmittedProps;
-  } else {
-    return layer;
-  }
-};
-
-const express = layer => {
+const pathResource = (resource = {}, i, parentPath) => {
+  const { type } = resource;
   return {
-    ...layer,
-    params: expressionEvaluator(layer.params)
-  };
-};
-
-const path = (layer, i, path) => {
-  const parentPath = path;
-  return {
-    ...layer,
+    ...resource,
     path: parentPath
-      ? `${parentPath}.${layer.type}[${i}]`
-      : `${layer.type}[${i}]`
+      ? `${parentPath}.${type}[${i}]`
+      : `${type}[${i}]`
   };
 };

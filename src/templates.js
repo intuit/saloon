@@ -5,8 +5,7 @@ const DEFAULT_TEMPLATE_CHILDREN = 10;
  * @param {Object} resource The resource with `childrenTemplate` and `childrenCount`.
  * @returns {Array} An array of expanded child resources.
  */
-export function templateProcessor(resource) {
-
+function templateProcessor(resource) {
     const parsed = parseInt(resource.childrenCount, 10);
     const count = resource.childrenCount && !isNaN(parsed)
         ? parsed
@@ -18,3 +17,23 @@ export function templateProcessor(resource) {
         return template;
     });
 }
+
+/*eslint-disable no-unused-vars */
+export function templateResource(resource){
+    if (resource.childrenTemplate) {
+      const transformedresource = {
+        ...resource,
+        children: templateProcessor(resource)
+      };
+  
+      const {
+        childrenCount,
+        childrenTemplate,
+        ...transformedresourceWithOmittedProps
+      } = transformedresource;
+      return transformedresourceWithOmittedProps;
+    } else {
+      return resource;
+    }
+  }
+  
