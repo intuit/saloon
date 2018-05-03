@@ -19,6 +19,10 @@ function templateProcessor(resource) {
 }
 
 /*eslint-disable no-unused-vars */
+/**
+ * @param {<Object>} resource a resource in context persona resource objects
+ * @returns {<Object>} the resource templated per templateProcessor rules
+ */
 export function templateResource(resource){
     if (resource.childrenTemplate) {
       const transformedresource = {

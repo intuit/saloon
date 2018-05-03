@@ -53,7 +53,10 @@ export function expressionEvaluator(data) {
     }
     return newData;
 }
-
+/**
+ * @param {<Object>} resource a resource in context persona resource objects
+ * @returns {<Object>} the resource templated per templateProcessor rules
+ */
 export function expressResource(resource) {
   return {
     ...resource,
