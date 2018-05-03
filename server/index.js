@@ -1,7 +1,5 @@
 // eslint-disable import/no-extraneous-dependencies
 import restify from 'restify'; // eslint-disable-line import/no-extraneous-dependencies
-import _ from 'lodash'; // eslint-disable-line import/no-extraneous-dependencies
-
 
 /**
  * COLLECTIONS
