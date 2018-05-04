@@ -7,5 +7,5 @@ export default [
   client,
   firm,
   taxreturn,
-  user
+  user,
 ];
