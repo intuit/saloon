@@ -1,10 +1,10 @@
 import test from 'ava';
 import sinon from 'sinon';
-import { expressionEvaluator } from '../expressions';
+import { recurseObjects } from '../expressions';
 import * as expressionFunctions from '../expressionFunctions';
 
 test('can handle non-existent expression functions', (t) => {
-  const result = expressionEvaluator({
+  const result = recurseObjects({
     foo: '{{bar()}}',
   });
   t.true(result.foo === '{{bar()}}');
@@ -12,7 +12,7 @@ test('can handle non-existent expression functions', (t) => {
 
 test('can handle multiple arguments sent to expression functions', (t) => {
   sinon.stub(expressionFunctions, 'phone');
-  expressionEvaluator({
+  recurseObjects({
     foo: '{{phone(true, \'us\')}}',
   });
   t.true(expressionFunctions.phone.called);

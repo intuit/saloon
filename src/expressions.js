@@ -1,9 +1,6 @@
 import * as expressionFns from './expressionFunctions';
 import logger from './logger';
 
-const EXP_START = '{{';
-const EXP_END = '}}';
-
 /**
  * Parses an expression.
  * @param {string} exp The raw model value.
@@ -32,33 +29,50 @@ function parse(exp) {
 }
 
 /**
- * Evaluates each expression within a collection of params.
- * @param {Object} data The parameters to be seeded.
- * @returns {Object} The evaluated parameters to be seeded.
- * TODO: make it recursive so it can handle nested expressions in the params object.
+ * @param {String} value
+ * Decides if it is an expression and returns the bool
  */
-export function expressionEvaluator(data) {
-  const newData = { ...data };
-  Object.entries(newData).forEach(([key]) => {
-    if (!newData[key] || typeof newData[key] !== 'string') {
-      return newData[key];
-    }
-
-    const start = newData[key].indexOf(EXP_START);
-    const end = newData[key].indexOf(EXP_END);
-
-    if (start !== -1 && end !== -1) {
-      newData[key] = parse(newData[key]);
-    }
+function shouldParseValue(value) {
+  const EXP_START = '{{';
+  const EXP_END = '}}';
+  if (!value || typeof value !== 'string') {
+    return false;
+  }
+  const start = value.indexOf(EXP_START);
+  const end = value.indexOf(EXP_END);
+  if (start !== -1 && end !== -1) {
     return true;
-  });
-
-  return newData;
+  }
+  return false;
 }
 
-export function expressResource(resource) {
+/**
+ * @param {Object} obj
+ * recurses over a given object in context of a persona param
+ * and evaluates its expressions
+ */
+export function recurseObjects(obj) {
+  return Object.keys(obj).reduce((accumulator, key) => {
+    const newAccumulator = { ...accumulator };
+    const value = obj[key];
+    if (typeof value === 'object' && value !== null) {
+      newAccumulator[key] = recurseObjects(value);
+    } else {
+      newAccumulator[key] = shouldParseValue(value) ? parse(value) : value;
+    }
+    return newAccumulator;
+  }, {});
+}
+
+/**
+ * Evaluates each expression within a collection of params.
+ * @param {Object} resource The parameters to be seeded.
+ * @returns {Object} The evaluated parameters to be seeded.
+ */
+
+export default function expressResource(resource) {
   return {
     ...resource,
-    params: expressionEvaluator(resource.params),
+    params: recurseObjects(resource.params),
   };
 }

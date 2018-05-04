@@ -1,5 +1,5 @@
 import templateResource from './templates';
-import { expressResource } from './expressions';
+import expressResource from './expressions';
 
 function iteratePersona(persona, callback) {
   const iterateResource = (resource, callback, i, parentPath) => {
