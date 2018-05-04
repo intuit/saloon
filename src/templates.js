@@ -18,12 +18,11 @@ function templateProcessor(resource) {
     });
 }
 
-/*eslint-disable no-unused-vars */
 /**
  * @param {<Object>} resource a resource in context persona resource objects
  * @returns {<Object>} the resource templated per templateProcessor rules
  */
-export function templateResource(resource){
+export function expandTemplates(resource){
     if (resource.childrenTemplate) {
       const transformedresource = {
         ...resource,
@@ -31,8 +30,8 @@ export function templateResource(resource){
       };
   
       const {
-        childrenCount,
-        childrenTemplate,
+        childrenCount, /*eslint-disable-line no-unused-vars */
+        childrenTemplate, /*eslint-disable-line no-unused-vars */
         ...transformedresourceWithOmittedProps
       } = transformedresource;
       return transformedresourceWithOmittedProps;

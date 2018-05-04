@@ -1,11 +1,13 @@
-import { templateResource } from "./templates";
-import { expressResource } from "./expressions";
+import { expandTemplates } from "./templates";
+import { evaluateExpressions } from "./expressions";
 
 /**
  * @param {Array<Objects>} persona 
  * @returns {Array<Objects} the parsed persona reiterated by the chain of callbacks
  */
-export const parsePersona = persona => iteratePersona(iteratePersona(iteratePersona(persona, templateResource), expressResource), pathResource);
+export const parsePersona = (persona) => [expandTemplates, evaluateExpressions, buildPath].reduce((accumulator, val) => {
+  return recursePersona(accumulator, val);
+}, persona);
 
 /**
  * @param {Array<Objects>} persona entire persona tree
@@ -13,7 +15,7 @@ export const parsePersona = persona => iteratePersona(iteratePersona(iteratePers
  * @returns {Array<Objects} the iterated persona by the callback provided
  * Walks the persona tree and uses a provided callback function to apply necessary logic to prepare for the seeding
  */
-function iteratePersona (persona, callback) {
+function recursePersona (persona, callback) {
     const iterateResource = (resource, callback, i, parentPath) => {
         const parsedResource = callback(resource, i, parentPath);
         const {children, path: currentPath} = parsedResource;
@@ -38,7 +40,7 @@ function iteratePersona (persona, callback) {
  * @param {Number} i 
  * @param {String} parentPath 
  */
-function pathResource (resource = {}, i, parentPath) {
+function buildPath (resource = {}, i, parentPath) {
   const { type } = resource;
   return {
     ...resource,
