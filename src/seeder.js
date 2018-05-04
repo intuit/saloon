@@ -101,8 +101,8 @@ export class Seeder {
      * @param {Object} error The response's error object.
      * @access private
      */
-  _saveError(resource, reject, error) {
-    this.reject(error);
+  _saveError(resource, reject, error) { // eslint-disable-line class-methods-use-this
+    reject(error);
     logger.warn(`Error seeding ${resource.id}: ${error}`);
   }
 
