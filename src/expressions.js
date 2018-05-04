@@ -58,7 +58,7 @@ export function expressionEvaluator(data) {
  * @param {<Object>} resource a resource in context persona resource objects
  * @returns {<Object>} the resource templated per templateProcessor rules
  */
-export function evaluateExpressions(resource) {
+export default function evaluateExpressions(resource) {
   return {
     ...resource,
     params: expressionEvaluator(resource.params),
