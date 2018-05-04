@@ -63,14 +63,11 @@ export function recurseObjects(obj) {
     return newAccumulator;
   }, {});
 }
-
 /**
- * Evaluates each expression within a collection of params.
- * @param {Object} resource The parameters to be seeded.
- * @returns {Object} The evaluated parameters to be seeded.
+ * @param {<Object>} resource a resource in context persona resource objects
+ * @returns {<Object>} the resource templated per templateProcessor rules
  */
-
-export default function expressResource(resource) {
+export default function evaluateExpressions(resource) {
   return {
     ...resource,
     params: recurseObjects(resource.params),
