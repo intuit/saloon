@@ -1,4 +1,6 @@
 import axios from 'axios';
+import defaultsDeep from 'lodash.defaultsdeep';
+
 import logger from './logger';
 import DefinitionRegistry from './definitions';
 import OutputStore from './output';
@@ -56,7 +58,7 @@ export class Seeder {
       resources,
       parentData,
       (resource, definition, resolve, reject) => {
-        const data = Object.assign({}, resource.params, definition.body || {});
+        const data = defaultsDeep(definition.body, resource.params);
 
         logger.info(`Seeding ${resource.id}`);
         logger.debug(data);
@@ -101,8 +103,8 @@ export class Seeder {
      * @param {Object} error The response's error object.
      * @access private
      */
-  _saveError(resource, reject, error) {
-    this.reject(error);
+  _saveError(resource, reject, error) { // eslint-disable-line class-methods-use-this
+    reject(error);
     logger.warn(`Error seeding ${resource.id}: ${error}`);
   }
 

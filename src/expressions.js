@@ -35,6 +35,7 @@ function parse(exp) {
  * Evaluates each expression within a collection of params.
  * @param {Object} data The parameters to be seeded.
  * @returns {Object} The evaluated parameters to be seeded.
+ * TODO: make it recursive so it can handle nested expressions in the params object.
  */
 export function expressionEvaluator(data) {
   const newData = { ...data };
