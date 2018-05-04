@@ -18,6 +18,7 @@ function templateProcessor(resource) {
   });
 }
 
+<<<<<<< HEAD
 export default function templateResource(resource) {
   if (resource.childrenTemplate) {
     const transformedresource = {
@@ -31,6 +32,28 @@ export default function templateResource(resource) {
       ...transformedresourceWithOmittedProps
     } = transformedresource;
     return transformedresourceWithOmittedProps;
+=======
+/**
+ * @param {<Object>} resource a resource in context persona resource objects
+ * @returns {<Object>} the resource templated per templateProcessor rules
+ */
+export function expandTemplates(resource){
+    if (resource.childrenTemplate) {
+      const transformedresource = {
+        ...resource,
+        children: templateProcessor(resource)
+      };
+  
+      const {
+        childrenCount, /*eslint-disable-line no-unused-vars */
+        childrenTemplate, /*eslint-disable-line no-unused-vars */
+        ...transformedresourceWithOmittedProps
+      } = transformedresource;
+      return transformedresourceWithOmittedProps;
+    } else {
+      return resource;
+    }
+>>>>>>> master
   }
   return resource;
 }
