@@ -31,6 +31,7 @@
   "dependencies": {
     "axios": "0.18.0",
     "chance": "1.0.13",
+    "lodash.set": "^4.3.2",
     "winston": "^2.4.1"
   },
   "devDependencies": {

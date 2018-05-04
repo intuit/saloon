@@ -38,17 +38,28 @@ function parse(exp) {
  * @returns {Object} The evaluated parameters to be seeded.
  */
 export function expressionEvaluator(data) {
-    for (const key in data) {
-        if (!data[key] || typeof data[key] !== 'string') {
-            return data[key];
+   let newData = {...data};
+    for (const key in newData) {
+        if (!newData[key] || typeof newData[key] !== 'string') {
+            return newData[key];
         }
 
-        const start = data[key].indexOf(EXP_START);
-        const end = data[key].indexOf(EXP_END);
+        const start = newData[key].indexOf(EXP_START);
+        const end = newData[key].indexOf(EXP_END);
 
         if (start !== -1 && end !== -1) {
-            data[key] = parse(data[key]);
+            newData[key] = parse(newData[key]);
         }
     }
-    return data;
+    return newData;
+}
+/**
+ * @param {<Object>} resource a resource in context persona resource objects
+ * @returns {<Object>} the resource templated per templateProcessor rules
+ */
+export function evaluateExpressions(resource) {
+  return {
+    ...resource,
+    params: expressionEvaluator(resource.params)
+  };
 }
