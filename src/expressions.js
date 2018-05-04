@@ -37,7 +37,7 @@ function parse(exp) {
  * @param {Object} data The parameters to be seeded.
  * @returns {Object} The evaluated parameters to be seeded.
  */
-export function evaluateExpressions(data) {
+export function expressionEvaluator(data) {
    let newData = {...data};
     for (const key in newData) {
         if (!newData[key] || typeof newData[key] !== 'string') {
@@ -57,7 +57,7 @@ export function evaluateExpressions(data) {
  * @param {<Object>} resource a resource in context persona resource objects
  * @returns {<Object>} the resource templated per templateProcessor rules
  */
-export function expressResource(resource) {
+export function evaluateExpressions(resource) {
   return {
     ...resource,
     params: expressionEvaluator(resource.params)
