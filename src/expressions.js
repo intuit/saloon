@@ -32,7 +32,7 @@ function parse(exp) {
  * @param {String} value
  * Decides if it is an expression and returns the bool
  */
-function shouldParseValue(value) {
+export function shouldParseValue(value) {
   const EXP_START = '{{';
   const EXP_END = '}}';
   if (!value || typeof value !== 'string') {
@@ -47,16 +47,16 @@ function shouldParseValue(value) {
 }
 
 /**
- * @param {Object} obj
- * recurses over a given object in context of a persona param
+ * @param {Object<>Array} obj
+ * recurses over a given data structure in context of a persona param
  * and evaluates its expressions
  */
-export function recurseObjects(obj) {
-  return Object.keys(obj).reduce((accumulator, key) => {
+export function recursePersonaParams(layer) {
+  return Object.keys(layer).reduce((accumulator, key) => {
     const newAccumulator = { ...accumulator };
-    const value = obj[key];
+    const value = layer[key];
     if (typeof value === 'object' && value !== null) {
-      newAccumulator[key] = recurseObjects(value);
+      newAccumulator[key] = recursePersonaParams(value);
     } else {
       newAccumulator[key] = shouldParseValue(value) ? parse(value) : value;
     }
@@ -70,6 +70,6 @@ export function recurseObjects(obj) {
 export default function evaluateExpressions(resource) {
   return {
     ...resource,
-    params: recurseObjects(resource.params),
+    params: recursePersonaParams(resource.params),
   };
 }
