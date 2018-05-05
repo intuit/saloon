@@ -41,7 +41,7 @@ export default class DefinitionRegistry {
 
     Object.entries(def).forEach(([key]) => {
       if (typeof def[key] === 'function') {
-        def[key] = def[key](parentData);
+        def[key] = def[key](parentData, resource);
       }
     });
 

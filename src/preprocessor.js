@@ -7,7 +7,7 @@ import evaluateExpressions from './expressions';
  * @returns {Array<Objects} the iterated persona by the callback provided
  * Walks the persona tree and uses a provided callback function to apply necessary logic to prepare for the seeding
  */
-function recursePersona(persona, callback) {
+export function recursePersona(persona, callback) {
   const iterateResource = (resource, callback, i, parentPath) => {
     const parsedResource = callback(resource, i, parentPath);
     const { children, path: currentPath } = parsedResource;

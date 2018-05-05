@@ -50,8 +50,9 @@ export function shouldParseValue(value) {
  * @param {Object<>Array}
  * recurses over a given data structure in context of a persona param
  * and evaluates its contents using the callback provided
+ * default {} for layer makes params a non required field in the persona
  */
-function recursePersonaParams(layer, callback) {
+function recursePersonaParams(layer = {}, callback) {
   return Object.keys(layer).reduce((accumulator, key) => {
     const newAccumulator = { ...accumulator };
     const value = layer[key];
@@ -75,5 +76,6 @@ export default function evaluateExpressions(resource) {
   return {
     ...resource,
     params: recursivelyParsePersonaParams(resource.params),
+    id: conditionallyParseValue(resource.id),
   };
 }
