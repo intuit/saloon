@@ -1,17 +1,17 @@
 import test from 'ava';
 import sinon from 'sinon';
-import { recursePersonaParams } from '../expressions';
+import { recursivelyParsePersonaParams } from '../expressions';
 import * as expressionFunctions from '../expressionFunctions';
 
 test('can handle non-existent expression functions', (t) => {
-  const result = recursePersonaParams({
+  const result = recursivelyParsePersonaParams({
     foo: '{{bar()}}',
   });
   t.true(result.foo === '{{bar()}}');
 });
 
 test('can express nested expressions', (t) => {
-  const result = recursePersonaParams({
+  const result = recursivelyParsePersonaParams({
     foo: '{{bool()}}',
     test: {
       bar: '{{bool()}}',
@@ -25,7 +25,7 @@ test('can express nested expressions', (t) => {
 });
 
 test('can express nested expressions in arrays', (t) => {
-  const result = recursePersonaParams({
+  const result = recursivelyParsePersonaParams({
     foo: '{{bool()}}',
     test: {
       bar: '{{bool()}}',
@@ -39,7 +39,7 @@ test('can express nested expressions in arrays', (t) => {
 
 test('can handle multiple arguments sent to expression functions', (t) => {
   sinon.stub(expressionFunctions, 'phone');
-  recursePersonaParams({
+  recursivelyParsePersonaParams({
     foo: '{{phone(true, \'us\')}}',
   });
   t.true(expressionFunctions.phone.called);

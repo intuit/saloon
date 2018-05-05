@@ -47,22 +47,26 @@ export function shouldParseValue(value) {
 }
 
 /**
- * @param {Object<>Array} obj
+ * @param {Object<>Array}
  * recurses over a given data structure in context of a persona param
- * and evaluates its expressions
+ * and evaluates its contents using the callback provided
  */
-export function recursePersonaParams(layer) {
+function recursePersonaParams(layer, callback) {
   return Object.keys(layer).reduce((accumulator, key) => {
     const newAccumulator = { ...accumulator };
     const value = layer[key];
     if (typeof value === 'object' && value !== null) {
-      newAccumulator[key] = recursePersonaParams(value);
+      newAccumulator[key] = recursePersonaParams(value, callback);
     } else {
-      newAccumulator[key] = shouldParseValue(value) ? parse(value) : value;
+      newAccumulator[key] = callback(value);
     }
     return newAccumulator;
   }, {});
 }
+
+const conditionallyParseValue = value => (shouldParseValue(value) ? parse(value) : value);
+export const recursivelyParsePersonaParams = params => recursePersonaParams(params, conditionallyParseValue);
+
 /**
  * @param {<Object>} resource a resource in context persona resource objects
  * @returns {<Object>} the resource templated per templateProcessor rules
@@ -70,6 +74,6 @@ export function recursePersonaParams(layer) {
 export default function evaluateExpressions(resource) {
   return {
     ...resource,
-    params: recursePersonaParams(resource.params),
+    params: recursivelyParsePersonaParams(resource.params),
   };
 }
