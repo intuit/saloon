@@ -1,9 +1,6 @@
 import * as expressionFns from './expressionFunctions';
 import logger from './logger';
 
-const EXP_START = '{{';
-const EXP_END = '}}';
-
 /**
  * Parses an expression.
  * @param {string} exp The raw model value.
@@ -32,28 +29,45 @@ function parse(exp) {
 }
 
 /**
- * Evaluates each expression within a collection of params.
- * @param {Object} data The parameters to be seeded.
- * @returns {Object} The evaluated parameters to be seeded.
+ * @param {String} value
+ * Decides if it is an expression and returns the bool
  */
-export function expressionEvaluator(data) {
-  const newData = { ...data };
-  Object.entries(newData).forEach(([key]) => {
-    if (!newData[key] || typeof newData[key] !== 'string') {
-      return newData[key];
-    }
-
-    const start = newData[key].indexOf(EXP_START);
-    const end = newData[key].indexOf(EXP_END);
-
-    if (start !== -1 && end !== -1) {
-      newData[key] = parse(newData[key]);
-    }
+export function shouldParseValue(value) {
+  const EXP_START = '{{';
+  const EXP_END = '}}';
+  if (!value || typeof value !== 'string') {
+    return false;
+  }
+  const start = value.indexOf(EXP_START);
+  const end = value.indexOf(EXP_END);
+  if (start !== -1 && end !== -1) {
     return true;
-  });
-
-  return newData;
+  }
+  return false;
 }
+
+/**
+ * @param {Object<>Array}
+ * recurses over a given data structure in context of a persona param
+ * and evaluates its contents using the callback provided
+ * default {} for layer makes params a non required field in the persona
+ */
+function recursePersonaParams(layer = {}, callback) {
+  return Object.keys(layer).reduce((accumulator, key) => {
+    const newAccumulator = { ...accumulator };
+    const value = layer[key];
+    if (typeof value === 'object' && value !== null) {
+      newAccumulator[key] = recursePersonaParams(value, callback);
+    } else {
+      newAccumulator[key] = callback(value);
+    }
+    return newAccumulator;
+  }, {});
+}
+
+const conditionallyParseValue = value => (shouldParseValue(value) ? parse(value) : value);
+export const recursivelyParsePersonaParams = params => recursePersonaParams(params, conditionallyParseValue);
+
 /**
  * @param {<Object>} resource a resource in context persona resource objects
  * @returns {<Object>} the resource templated per templateProcessor rules
@@ -61,6 +75,7 @@ export function expressionEvaluator(data) {
 export default function evaluateExpressions(resource) {
   return {
     ...resource,
-    params: expressionEvaluator(resource.params),
+    params: recursivelyParsePersonaParams(resource.params),
+    id: conditionallyParseValue(resource.id),
   };
 }

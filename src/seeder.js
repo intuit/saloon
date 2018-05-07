@@ -1,4 +1,6 @@
 import axios from 'axios';
+import defaultsDeep from 'lodash.defaultsdeep';
+
 import logger from './logger';
 import DefinitionRegistry from './definitions';
 import OutputStore from './output';
@@ -52,11 +54,12 @@ export class Seeder {
      * @async
      */
   async _save(resources, parentData = {}) {
+    const newParentData = { ...parentData };
     const promises = await this._resourceIterator(
       resources,
-      parentData,
+      newParentData,
       (resource, definition, resolve, reject) => {
-        const data = Object.assign({}, resource.params, definition.body || {});
+        const data = defaultsDeep(resource.params, definition.body);
 
         logger.info(`Seeding ${resource.id}`);
         logger.debug(data);
@@ -67,13 +70,13 @@ export class Seeder {
           headers: definition.headers || {},
           data,
         })
-          .then(this._saveSuccess.bind(this, resource, resolve, parentData))
+          .then(this._saveSuccess.bind(this, resource, resolve, newParentData))
           .catch(this._saveError.bind(this, resource, reject));
       },
     );
 
     return Promise.all(promises)
-      .then(values => Promise.all(values.map(({ resources, parentData }) => (resources ? this._save(resources, parentData) : null))));
+      .then(values => Promise.all(values.map(({ resources, newParentData }) => (resources ? this._save(resources, newParentData) : null))));
   }
 
   /**
@@ -85,13 +88,14 @@ export class Seeder {
      * @access private
      */
   _saveSuccess(resource, resolve, parentData, response) {
+    const newParentData = { ...parentData };
     if (!response) {
       logger.warn(`Nothing returned by resource API: ${resource.type}`);
     }
     this._output.insert(resource.path, response.data);
     logger.info(`Finished seeding ${resource.id}`);
-    parentData[resource.type] = response.data;// eslint-disable-line no-param-reassign
-    resolve({ resources: resource.children, parentData });
+    newParentData[resource.type] = response.data;
+    resolve({ resources: resource.children, newParentData });
   }
 
   /**
