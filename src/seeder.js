@@ -61,7 +61,7 @@ class Seeder {
       (resource, definition, resolve, reject) => {
         const data = defaultsDeep(resource.params, definition.body);
 
-        logger.info(`Seeding ${resource.id}`);
+        logger.info(`Seeding ${resource.type}`);
         logger.debug(data);
 
         axios({

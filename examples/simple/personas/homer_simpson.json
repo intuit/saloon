@@ -1,6 +1,5 @@
 [
     {
-        "id": "user",
         "type": "user",
         "params": {
             "firstName": "Homer",
@@ -11,7 +10,6 @@
         "output": "firstName",
         "children": [
             {
-                "id": "firm",
                 "type": "firm",
                 "params": {
                     "firmName": "Homer Simpson and Associates, Inc",
@@ -21,7 +19,6 @@
                 "output": ["firmAddress1", "firmCity", "firm_id"],
                 "children": [
                     {
-                        "id": "client-moe",
                         "type": "client",
                         "params": {
                             "firstName": "Moe",
@@ -32,7 +29,6 @@
                         },
                         "children": [
                             {
-                                "id": "client-moe-return-1",
                                 "type": "taxreturn",
                                 "params": {
                                     "type": "1040",
@@ -43,7 +39,6 @@
                         ]
                     },
                     {
-                        "id": "client-apu",
                         "type": "client",
                         "params": {
                             "firstName": "Apu",
@@ -54,7 +49,6 @@
                         },
                         "children": [
                             {
-                                "id": "client-apu-return-1",
                                 "type": "taxreturn",
                                 "params": {
                                     "type": "1040",
@@ -65,8 +59,7 @@
                         ]
                     },
                     {
-                        "id": "client-snpp",
-                        "type": "client",
+                        "type": "client", 
                         "params": {
                             "organizationName": "Springfield Nuclear Power Plant",
                             "ein": "12-345678",
@@ -75,7 +68,6 @@
                         },
                         "children": [
                             {
-                                "id": "client-snpp-return-1",
                                 "type": "taxreturn",
                                 "params": {
                                     "type": "1120",

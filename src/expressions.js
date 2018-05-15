@@ -76,6 +76,5 @@ export default function evaluateExpressions(resource) {
   return {
     ...resource,
     params: recursivelyParsePersonaParams(resource.params),
-    id: conditionallyParseValue(resource.id),
   };
 }
