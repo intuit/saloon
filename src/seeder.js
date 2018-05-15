@@ -10,7 +10,7 @@ import parsePersona from './preprocessor';
  * The seeder. The big kahuna.
  * @class
  */
-export class Seeder {
+class Seeder {
   constructor() {
     this._definitions = new DefinitionRegistry();
     this._output = new OutputStore();

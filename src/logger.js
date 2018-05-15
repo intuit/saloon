@@ -4,7 +4,7 @@ import winston from 'winston';
  * A logger utility.
  * @class
  */
-export class Logger {
+class Logger {
   constructor() {
     /**
          * The default logging configuration.
