@@ -1,4 +1,3 @@
-
 const path = require('path');
 
 module.exports = {
@@ -6,6 +5,9 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'main.js',
+  },
+  node: {
+    fs: 'empty', // fix for css-loader needed in winston https://github.com/webpack-contrib/css-loader/issues/447
   },
   module: {
     rules: [
