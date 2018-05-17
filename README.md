@@ -66,7 +66,6 @@ export default {
 
 # Personas
 A test suite will have a collection of personas to test different scenarios and use cases. Persona data is modeled as parent-child relationships.
-- **id** (string) _required_ - Unique dentifier for the resource
 - **type** (string) _required_ - Resource type, must have a definition with the same name
 - **params** (object) - Request body
 - **children** (array) - An array of children resources which will be seeded after the parent is finished.
@@ -76,7 +75,6 @@ A test suite will have a collection of personas to test different scenarios and 
 ```javascript
 [
   {
-    "id": "user-id",
     "type": "user",
     "params": {
       "username": "Homer_Simpson",
@@ -86,7 +84,6 @@ A test suite will have a collection of personas to test different scenarios and 
     },
     "children": [
       {
-        "id": "client-moe",
         "type": "client",
         "params": {
           "firstName": "Moe",
@@ -100,23 +97,19 @@ A test suite will have a collection of personas to test different scenarios and 
 ```
 
 ### Templates
-As noted above, templates can be used via `childrenTemplate` and `childrenCount` to dynamically generate children resources. The `id` must remain unique, so it's suggested to use a random number or guid (see expression functions below).
+As noted above, templates can be used via `childrenTemplate` and `childrenCount` to dynamically generate children resources.
 ```javascript
 [
   {
-    "id": "user-id",
     "type": "user",
     "childrenCount": "3",
     "childrenTemplate": {
-      "id": "{{guid()}}",
       "type": "client",
       "children": [
         {
-          "id": "{{guid()}}",
           "type": "taxreturn"
         },
         {
-          "id": "{{guid()}}",
           "type": "taxreturn"
         }
       ]

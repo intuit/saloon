@@ -11,9 +11,8 @@ function templateProcessor(resource) {
     ? parsed
     : DEFAULT_TEMPLATE_CHILDREN;
 
-  return [...Array(count).keys()].map((i) => {
+  return [...Array(count).keys()].map(() => {
     const template = Object.assign({}, resource.childrenTemplate);
-    template.id = `${template.id}${i}`;
     return template;
   });
 }

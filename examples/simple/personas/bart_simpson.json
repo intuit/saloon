@@ -1,6 +1,5 @@
 [
   {
-    "id": "user",
     "type": "user",
     "params": {
       "firstName": "Bart",
@@ -10,7 +9,6 @@
     },
     "children": [
       {
-        "id": "firm",
         "type": "firm",
         "params": {
           "firmName": "Bart Simpson and Co.",
@@ -19,7 +17,6 @@
         },
         "childrenCount": "3",
         "childrenTemplate": {
-          "id": "client",
           "type": "client",
           "params": {
             "firstName": "{{firstName()}}",
@@ -30,7 +27,6 @@
           },
           "children": [
             {
-              "id": "taxreturn",
               "type": "taxreturn",
               "params": {
                 "type": "1040",
@@ -38,7 +34,6 @@
               }
             },
             {
-              "id": "taxreturn",
               "type": "taxreturn",
               "params": {
                 "type": "1120",
