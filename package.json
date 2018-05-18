@@ -18,7 +18,7 @@
     "publish:major": "npm version major && npm publish && git push && git push --tags",
     "publish:minor": "npm version minor && npm publish && git push && git push --tags",
     "publish:patch": "npm version patch && npm publish && git push && git push --tags ",
-    "example": "babel-node --presets env examples/simple/index.js",
+    "example:standard": "babel-node --presets env examples/standard/index.js",
     "docs": "./node_modules/.bin/jsdoc src -r --destination docs"
   },
   "repository": {
