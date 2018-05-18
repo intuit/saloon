@@ -7,7 +7,6 @@
             "email": "homer_simpson@gmail.com",
             "phone": "214-123-4567"
         },
-        "output": "firstName",
         "children": [
             {
                 "type": "firm",
@@ -16,7 +15,6 @@
                     "firmAddress1": "742 Evergreen Terrace",
                     "firmCity": "Springfield"
                 },
-                "output": ["firmAddress1", "firmCity", "firm_id"],
                 "children": [
                     {
                         "type": "client",
@@ -33,8 +31,7 @@
                                 "params": {
                                     "type": "1040",
                                     "returnName": "Moe Szyslak's 1040"
-                                },
-                                "output": [{ "returnName1": "returnName" }]
+                                }
                             }
                         ]
                     },
@@ -52,16 +49,17 @@
                                 "type": "taxreturn",
                                 "params": {
                                     "type": "1040",
-                                    "returnName": "Apu Nahasapeemapetilon's 1040"
-                                },
-                                "output": [{ "returnName2": "returnName" }]
+                                    "returnName":
+                                        "Apu Nahasapeemapetilon's 1040"
+                                }
                             }
                         ]
                     },
                     {
-                        "type": "client", 
+                        "type": "client",
                         "params": {
-                            "organizationName": "Springfield Nuclear Power Plant",
+                            "organizationName":
+                                "Springfield Nuclear Power Plant",
                             "ein": "12-345678",
                             "email": "springfield_nuclear_plant@gmail.com",
                             "type": "BIZ"
@@ -71,9 +69,9 @@
                                 "type": "taxreturn",
                                 "params": {
                                     "type": "1120",
-                                    "returnName": "Springfield Nuclear Plant's 1120"
-                                },
-                                "output": [{ "returnName3": "returnName" }]
+                                    "returnName":
+                                        "Springfield Nuclear Plant's 1120"
+                                }
                             }
                         ]
                     }
