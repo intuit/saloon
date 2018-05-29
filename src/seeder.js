@@ -62,7 +62,7 @@ class Seeder {
   async _save(resources, parentData = {}) {
     const newParentData = { ...parentData };
 
-    function execute(resource, definition, resolve, reject) {
+    const execute = (resource, definition, resolve, reject) => {
       const data = defaultsDeep(resource.params, definition.body);
 
       logger.info(`Seeding ${resource.type}`);
@@ -88,9 +88,9 @@ class Seeder {
             this._saveError(resource, reject, e);
           }
         });
-    }
+    };
 
-    const promises = await this._resourceIterator(resources, newParentData, execute.bind(this));
+    const promises = await this._resourceIterator(resources, newParentData, execute);
 
     return Promise.all(promises)
       .then(values => Promise.all(values.map(({ resources, newParentData }) => (resources ? this._save(resources, newParentData) : null))));
