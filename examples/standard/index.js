@@ -9,7 +9,7 @@ server.ready.then(() => {
   setLoggingLevel('info');
   setDefinitions(definitions);
   seed(bartSimpson).then((output) => {
-    console.log('Output data', util.inspect(output, false, 20, true));
+    console.log('Output data', util.inspect(output, false, 20, true)); // eslint-disable-line no-console
     process.exit();
   });
 });

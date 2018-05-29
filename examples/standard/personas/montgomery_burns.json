@@ -1,0 +1,12 @@
+[
+  {
+    "type": "user",
+    "params": {
+      "firstName": "Montgomery",
+      "lastName": "Burns",
+      "email": "{{email()}}",
+      "phone": "{{phone()}}",
+      "_failCount": 2
+    }
+  }
+]

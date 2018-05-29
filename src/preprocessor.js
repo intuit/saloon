@@ -1,5 +1,6 @@
 import expandTemplates from './templates';
 import evaluateExpressions from './expressions';
+import { guid } from './expressionFunctions';
 
 /**
  * @param {Array<Objects>} persona entire persona tree
@@ -32,6 +33,7 @@ function buildPath(resource = {}, i, parentPath) {
   const { type } = resource;
   return {
     ...resource,
+    id: guid(),
     path: parentPath
       ? `${parentPath}.${type}[${i}]`
       : `${type}[${i}]`,
