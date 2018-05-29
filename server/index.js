@@ -10,6 +10,8 @@ const firms = [];
 const clients = [];
 const returns = [];
 
+let userFailCount = 0;
+
 
 /**
  * ROUTER
@@ -17,6 +19,12 @@ const returns = [];
 const router = (server) => {
   server.post('/api/user', (req, res, next) => {
     const newUser = req.params;
+
+    if (newUser._failCount && newUser._failCount > userFailCount) {
+      userFailCount += 1;
+      res.send(500);
+      return next();
+    }
 
     newUser.user_id = '123';
     users.push(newUser);

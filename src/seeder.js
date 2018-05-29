@@ -6,6 +6,8 @@ import DefinitionRegistry from './definitions';
 import OutputStore from './output';
 import parsePersona from './preprocessor';
 
+const MAX_RETRY_ATTEMPTS = 3;
+
 /**
  * The seeder. The big kahuna.
  * @class
@@ -33,14 +35,18 @@ class Seeder {
      * @access public
      * @async
      */
-  async seed(persona, cb = function () {}) {
+  async seed(persona, cb = () => {}) {
     logger.info('Init Seeding');
+
     const parsedPersona = parsePersona(persona);
     this._output.clear();
+    this._retries = {};
     await this._save(parsedPersona);
     const output = this._output.get();
+
     logger.info('Finished Seeding');
     logger.debug(output);
+
     cb(output);
     return output;
   }
@@ -55,25 +61,36 @@ class Seeder {
      */
   async _save(resources, parentData = {}) {
     const newParentData = { ...parentData };
-    const promises = await this._resourceIterator(
-      resources,
-      newParentData,
-      (resource, definition, resolve, reject) => {
-        const data = defaultsDeep(resource.params, definition.body);
 
-        logger.info(`Seeding ${resource.type}`);
-        logger.debug(data);
+    function execute(resource, definition, resolve, reject) {
+      const data = defaultsDeep(resource.params, definition.body);
 
-        axios({
-          method: definition.method || 'post',
-          url: definition.url,
-          headers: definition.headers || {},
-          data,
-        })
-          .then(this._saveSuccess.bind(this, resource, resolve, newParentData))
-          .catch(this._saveError.bind(this, resource, reject));
-      },
-    );
+      logger.info(`Seeding ${resource.type}`);
+      logger.debug(data);
+
+      axios({
+        method: definition.method || 'post',
+        url: definition.url,
+        headers: definition.headers || {},
+        data,
+      })
+        .then(this._saveSuccess.bind(this, resource, resolve, newParentData))
+        .catch((e) => {
+          if (!this._retries[resource.id]) {
+            this._retries[resource.id] = 0;
+          }
+          this._retries[resource.id] += 1;
+
+          if (this._retries[resource.id] < MAX_RETRY_ATTEMPTS) {
+            logger.warn(`Could not seed ${resource.type} on attempt #${this._retries[resource.id]}, retrying...`);
+            execute.call(this, resource, definition, resolve, reject);
+          } else {
+            this._saveError(resource, reject, e);
+          }
+        });
+    }
+
+    const promises = await this._resourceIterator(resources, newParentData, execute.bind(this));
 
     return Promise.all(promises)
       .then(values => Promise.all(values.map(({ resources, newParentData }) => (resources ? this._save(resources, newParentData) : null))));
@@ -93,7 +110,7 @@ class Seeder {
       logger.warn(`Nothing returned by resource API: ${resource.type}`);
     }
     this._output.insert(resource.path, response.data);
-    logger.info(`Finished seeding ${resource.id}`);
+    logger.info(`Finished seeding ${resource.type}`);
     newParentData[resource.type] = response.data;
     resolve({ resources: resource.children, newParentData });
   }
@@ -107,7 +124,7 @@ class Seeder {
      */
   _saveError(resource, reject, error) { // eslint-disable-line class-methods-use-this
     reject(error);
-    logger.warn(`Error seeding ${resource.id}: ${error}`);
+    logger.warn(`Error seeding ${resource.type}: ${error}`);
   }
 
   /**

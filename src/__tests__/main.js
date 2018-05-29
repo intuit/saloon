@@ -1,8 +1,8 @@
 import test from 'ava';
 import server from '../../server';
 import { seed, setDefinitions, setLoggingLevel } from '../main';
-import definitions from '../../examples/simple/definitions';
-import { homerSimpson, bartSimpson } from '../../examples/simple/personas';
+import definitions from '../../examples/standard/definitions';
+import { homerSimpson, bartSimpson, montgomeryBurns } from '../../examples/standard/personas';
 
 /**
  * These are functional tests run against a local, mocked REST api.
@@ -72,5 +72,11 @@ test.serial('should not create more rows than specified', async (t) => {
   await seed(bartSimpson).then((output) => {
     t.falsy(output.user[0].firm[0].client[3]);
     t.falsy(output.user[0].firm[0].client[0].taxreturn[2]);
+  });
+});
+
+test.serial('should attempt 3 retries should the requests fail', async (t) => {
+  await seed(montgomeryBurns).then((output) => {
+    t.true(output.user[0].firstName === 'Montgomery');
   });
 });
