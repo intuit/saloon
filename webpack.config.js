@@ -6,11 +6,8 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'saloon.js',
-    library: '',
-    libraryTarget: 'commonjs',
-  },
-  node: {
-    fs: 'empty', // fix for css-loader needed in winston https://github.com/webpack-contrib/css-loader/issues/447
+    library: 'saloon',
+    libraryTarget: 'umd',
   },
   externals: [nodeExternals()],
   module: {

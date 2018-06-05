@@ -14,15 +14,15 @@ The engine then traverses through the persona, generating all required resources
 - Populate the definition registry
 - Seed with a persona
 ```javascript
-import { setDefinitions, seed } from 'saloon';
-setDefinitions(anArrayOfDefinitions);
+import saloon from 'saloon';
+saloon.setDefinitions(anArrayOfDefinitions);
 
-seed(homer_simpson)
+saloon.seed(homer_simpson)
   .then(output => { console.log(output) });
 
 // OR
 
-seed(homer_simpson, output => {
+saloon.seed(homer_simpson, output => {
   console.log(output);
 })
 ```

@@ -6,7 +6,7 @@ const logToFile = logger.logToFile.bind(logger);
 const seed = seeder.seed.bind(seeder);
 const setDefinitions = seeder.setDefinitions.bind(seeder);
 
-export {
+export default {
   setLoggingLevel,
   logToFile,
   seed,
