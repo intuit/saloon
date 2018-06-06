@@ -1,10 +1,10 @@
 import logger from './logger';
 import seeder from './seeder';
 
-const setLoggingLevel = logger.setLoggingLevel.bind(logger);
-const logToFile = logger.logToFile.bind(logger);
-const seed = seeder.seed.bind(seeder);
-const setDefinitions = seeder.setDefinitions.bind(seeder);
+export const setLoggingLevel = logger.setLoggingLevel.bind(logger);
+export const logToFile = logger.logToFile.bind(logger);
+export const seed = seeder.seed.bind(seeder);
+export const setDefinitions = seeder.setDefinitions.bind(seeder);
 
 export default {
   setLoggingLevel,
