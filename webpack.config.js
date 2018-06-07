@@ -6,8 +6,8 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'saloon.js',
-    library: 'saloon',
     libraryTarget: 'umd',
+    globalObject: 'this',
   },
   externals: [nodeExternals()],
   module: {
