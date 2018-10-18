@@ -50,8 +50,12 @@ function ein() {
   }).join('');
 }
 
-function email(domain = null) {
-  return chance.email({ domain });
+function email(domain = null, timestamp = false) {
+  let email = chance.email({ domain });
+  if (timestamp === true) {
+    email = email.replace('@', `_${Date.now()}@`);
+  }
+  return email;
 }
 
 function gender() {
