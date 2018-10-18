@@ -50,8 +50,16 @@ function ein() {
   }).join('');
 }
 
-function email(domain = null) {
-  return chance.email({ domain });
+function email(domain = null, timestamp = false) {
+  let email = chance.email({ domain });
+  if (timestamp === true) {
+    const i = email.indexOf('@');
+    const split = email.split('');
+    split.splice(i, 0, '_', Date.now());
+    email = split.join('');
+    console.log(email);
+  }
+  return email;
 }
 
 function gender() {

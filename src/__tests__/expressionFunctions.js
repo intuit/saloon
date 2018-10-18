@@ -53,7 +53,9 @@ test('ein', (t) => {
 test('email', (t) => {
   t.true(expFns.email().indexOf('@') !== -1);
   t.true(expFns.email().indexOf('.') !== -1);
-  t.true(expFns.email('intuit.com').indexOf('intuit.com') !== -1);
+  t.true(expFns.email('intuit.com').indexOf('@intuit.com') !== -1);
+  t.true(expFns.email('intuit.com', true).indexOf('_') !== -1);
+  t.true(expFns.email('intuit.com', true).indexOf('@intuit.com') !== -1);
 });
 
 test('gender', (t) => {
