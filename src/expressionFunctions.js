@@ -53,11 +53,9 @@ function ein() {
 function email(domain = null, timestamp = false) {
   let email = chance.email({ domain });
   if (timestamp === true) {
-    const i = email.indexOf('@');
     const split = email.split('');
-    split.splice(i, 0, '_', Date.now());
+    split.splice(email.indexOf('@'), 0, '_', Date.now());
     email = split.join('');
-    console.log(email);
   }
   return email;
 }
