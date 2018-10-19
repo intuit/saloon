@@ -132,7 +132,7 @@ There are number of expression functions available to dynamically generate test 
 - `{{dollars(max = 999999999)}}`
 - `{{domain()}}`
 - `{{ein()}}`
-- `{{email(domain = null)}}`
+- `{{email(domain = null, timestamp = false)}}`
 - `{{firstName()}}`
 - `{{fullName()}}`
 - `{{gender()}}`
