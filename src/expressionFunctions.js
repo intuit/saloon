@@ -52,7 +52,7 @@ function ein() {
 
 function email(domain = null, timestamp = false) {
   let email = chance.email({ domain });
-  if (timestamp === true) {
+  if (Boolean(timestamp) === true) {
     email = email.replace('@', `_${Date.now()}@`);
   }
   return email;
