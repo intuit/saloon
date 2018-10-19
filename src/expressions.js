@@ -20,7 +20,6 @@ function parse(exp) {
 
   if (args.length) {
     args = args.split(',').map((arg) => {
-
       if (arg === 'true' || arg === 'false') {
         return Boolean(arg);
       }
