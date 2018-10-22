@@ -44,7 +44,17 @@ test('can handle multiple arguments sent to expression functions', (t) => {
   });
   t.true(expressionFunctions.phone.called);
 
-  const args = expressionFunctions.phone.getCall(0).args; //eslint-disable-line 
-  t.true(args[0] === 'true');
+  const args = expressionFunctions.phone.getCall(0).args; //eslint-disable-line
+  t.true(args[0] === true);
   t.true(args[1] === 'us');
+});
+
+test('can handle booleans passed in as strings to expression functions', (t) => {
+  recursivelyParsePersonaParams({
+    foo: '{{phone(\'true\')}}',
+  });
+  t.true(expressionFunctions.phone.called);
+
+  const args = expressionFunctions.phone.getCall(0).args; //eslint-disable-line
+  t.true(args[0] === true);
 });

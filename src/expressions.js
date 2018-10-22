@@ -20,6 +20,10 @@ function parse(exp) {
 
   if (args.length) {
     args = args.split(',').map((arg) => {
+      if (arg === 'true' || arg === 'false') {
+        return Boolean(arg);
+      }
+
       const parsed = parseInt(arg, 10);
       return Number.isNaN(parsed) ? arg.trim().replace(/'/g, '') : parsed;
     });
