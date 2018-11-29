@@ -63,6 +63,10 @@ class Logger {
      * @access private
      */
   _log(level, msg) {
+    if (!console[level]) { // eslint-disable-line no-console
+      return;
+    }
+
     let output = msg;
 
     if (typeof output === 'object') {
