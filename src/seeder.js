@@ -1,6 +1,6 @@
 import defaultsDeep from 'lodash.defaultsdeep';
 
-import requestAdapter from './requestAdapters';
+import getRequestAdapter from './requestAdapters';
 import logger from './logger';
 import DefinitionRegistry from './definitions';
 import OutputStore from './output';
@@ -68,7 +68,7 @@ class Seeder {
       logger.info(`Seeding ${resource.type}`);
       logger.debug(data);
 
-      requestAdapter(resource)
+      getRequestAdapter(resource)
         .execute(definition, data)
         .then(this._saveSuccess.bind(this, resource, resolve, newParentData))
         .catch((e) => {
