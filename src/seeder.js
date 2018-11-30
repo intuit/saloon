@@ -1,6 +1,6 @@
-import axios from 'axios';
 import defaultsDeep from 'lodash.defaultsdeep';
 
+import requestAdapter from './requestAdapters';
 import logger from './logger';
 import DefinitionRegistry from './definitions';
 import OutputStore from './output';
@@ -68,12 +68,8 @@ class Seeder {
       logger.info(`Seeding ${resource.type}`);
       logger.debug(data);
 
-      axios({
-        method: definition.method || 'post',
-        url: definition.url,
-        headers: definition.headers || {},
-        data,
-      })
+      requestAdapter(resource)
+        .execute(definition, data)
         .then(this._saveSuccess.bind(this, resource, resolve, newParentData))
         .catch((e) => {
           if (!this._retries[resource.id]) {
