@@ -1,4 +1,3 @@
-
 import axios from 'axios';
 
 export default function restAdapter(definition, data) {
