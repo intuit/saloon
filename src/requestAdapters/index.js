@@ -2,7 +2,7 @@ import restAdapter from './rest';
 
 const DEFAULT_ADAPTER = 'rest';
 
-const requestAdapters = {
+export const requestAdapters = {
   rest: restAdapter,
 };
 
