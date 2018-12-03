@@ -13,15 +13,15 @@ const menuitems = [];
 
 const QuerySchema = `
   type Query {
-    menus: [Menu],
-    menuitems: [MenuItem]
+    menus: [Menu!]!,
+    menuitems: [MenuItem!]!
   }
 `;
 
 const MutationSchema = `
   type Mutation {
     addMenu(name: String): Menu,
-    addMenuItem(name: String, price: Int): MenuItem
+    addMenuItem(name: String, price: Int, menuId: ID): MenuItem
   }
 `;
 
@@ -29,7 +29,7 @@ const MenuSchema = `
   type Menu {
     id: ID,
     name: String
-    menuitems: [MenuItem]
+    menuitemIds: [ID!]!
   }
 `;
 
@@ -37,7 +37,8 @@ const MenuItemSchema = `
   type MenuItem {
     id: ID,
     name: String,
-    price: Int
+    price: Int,
+    menuId: ID
   }
 `;
 
@@ -49,14 +50,23 @@ export default function graphqlApi(server) {
     },
     Mutation: {
       addMenu: (root, { name }) => {
-        const menu = { id: buildID, name };
-        menus.push(menu);
-        return menu;
+        const entity = { id: buildID(), name, menuitemIds: [] };
+        menus.push(entity);
+        return entity;
       },
-      addMenuItem: (root, { name, price }) => {
-        const menuitem = { id: buildID, name, price };
-        menuitems.push(menuitem);
-        return menuitem;
+      addMenuItem: (root, { name, price, menuId }) => {
+        const entity = {
+          id: buildID(),
+          name,
+          price,
+          menuId,
+        };
+        menuitems.push(entity);
+
+        const parentEntity = menus.find(tmp => parseInt(menuId, 10) === parseInt(tmp.id, 10));
+        parentEntity.menuitemIds.push(entity.id);
+
+        return entity;
       },
     },
   };

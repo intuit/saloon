@@ -3,7 +3,7 @@ import BaseRequestAdapter from './Base';
 
 class GraphqlAdapter extends BaseRequestAdapter {
   constructPayload() {
-    this._payload = this.resource.params;
+    this._payload = this._resource.params;
     return this;
   }
 
@@ -17,7 +17,8 @@ class GraphqlAdapter extends BaseRequestAdapter {
       data: {
         query: this._payload,
       },
-    });
+    })
+      .then(({ data }) => data);
   }
 }
 
