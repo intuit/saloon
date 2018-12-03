@@ -63,13 +63,18 @@ class Seeder {
     const newParentData = { ...parentData };
 
     const execute = (resource, definition, resolve, reject) => {
-      const data = defaultsDeep(resource.params, definition.body);
+      // const data = defaultsDeep(resource.params, definition.body);
 
       logger.info(`Seeding ${resource.type}`);
-      logger.debug(data);
+      // logger.debug(data);
 
-      getRequestAdapter(resource)
-        .execute(definition, data)
+      // getRequestAdapter(definition)
+      //   .execute(data)
+      //   .then(this._saveSuccess.bind(this, resource, resolve, newParentData))
+
+      getRequestAdapter(definition, resource)
+        .constructPayload()
+        .execute()
         .then(this._saveSuccess.bind(this, resource, resolve, newParentData))
         .catch((e) => {
           if (!this._retries[resource.id]) {
