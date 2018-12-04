@@ -3,6 +3,9 @@ const firms = [];
 const clients = [];
 const returns = [];
 
+const restaurants = [];
+const ingredients = [];
+
 let userFailCount = 0;
 
 export default function restApi(server) {
@@ -64,6 +67,26 @@ export default function restApi(server) {
     returns.push(newReturn);
 
     res.send(201, newReturn);
+    return next();
+  });
+
+  server.post('/api/restaurant', (req, res, next) => {
+    const newRestaurant = req.params;
+
+    newRestaurant.restaurant_id = '789';
+    restaurants.push(newRestaurant);
+
+    res.send(201, newRestaurant);
+    return next();
+  });
+
+  server.post('/api/ingredient', (req, res, next) => {
+    const newIngredient = req.params;
+
+    newIngredient.ingredient_id = '432';
+    restaurants.push(newIngredient);
+
+    res.send(201, newIngredient);
     return next();
   });
 };

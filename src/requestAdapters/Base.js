@@ -5,11 +5,11 @@ export default class BaseRequestAdapter {
     this._payload = {};
 
     if (typeof this.constructPayload === 'undefined') {
-      throw new Error('Request adapter must have `constructPayload` method.');
+      throw new Error('Request adapter must define `constructPayload` method.');
     }
 
     if (typeof this.execute === 'undefined') {
-      throw new Error('Request adapter must have `execute` method.');
+      throw new Error('Request adapter must define `execute` method.');
     }
   }
 }

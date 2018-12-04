@@ -8,7 +8,7 @@ class GraphqlAdapter extends BaseRequestAdapter {
   }
 
   execute() {
-    const { url, headers = {} } = this._definition;
+    const { url, headers = {}, variables } = this._definition;
 
     return axios({
       method: 'post',
@@ -16,6 +16,7 @@ class GraphqlAdapter extends BaseRequestAdapter {
       headers,
       data: {
         query: this._payload,
+        variables,
       },
     })
       .then(({ data }) => data);

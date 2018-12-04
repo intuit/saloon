@@ -20,7 +20,7 @@ const QuerySchema = `
 
 const MutationSchema = `
   type Mutation {
-    addMenu(name: String): Menu,
+    addMenu(name: String, userId: ID): Menu,
     addMenuItem(name: String, price: Int, menuId: ID): MenuItem
   }
 `;
@@ -29,6 +29,7 @@ const MenuSchema = `
   type Menu {
     id: ID,
     name: String
+    userId: ID
     menuitemIds: [ID!]!
   }
 `;
@@ -49,8 +50,13 @@ export default function graphqlApi(server) {
       menuitems: () => menuitems,
     },
     Mutation: {
-      addMenu: (root, { name }) => {
-        const entity = { id: buildID(), name, menuitemIds: [] };
+      addMenu: (root, { name, userId }) => {
+        const entity = {
+          id: buildID(),
+          userId,
+          name,
+          menuitemIds: [],
+        };
         menus.push(entity);
         return entity;
       },
@@ -64,8 +70,9 @@ export default function graphqlApi(server) {
         menuitems.push(entity);
 
         const parentEntity = menus.find(tmp => parseInt(menuId, 10) === parseInt(tmp.id, 10));
-        parentEntity.menuitemIds.push(entity.id);
-
+        if (parentEntity) {
+          parentEntity.menuitemIds.push(entity.id);
+        }
         return entity;
       },
     },
