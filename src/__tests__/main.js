@@ -1,8 +1,12 @@
 import test from 'ava';
 import server from '../../server';
-import { seed, setDefinitions, setLoggingLevel } from '../main';
-import definitions from '../../examples/standard/definitions';
+import { seed, setDefinitions } from '../main';
+import simpleDefinitions from '../../examples/standard/definitions';
+import graphqlDefinitions from '../../examples/graphql/definitions';
 import { homerSimpson, bartSimpson, montgomeryBurns } from '../../examples/standard/personas';
+import { bobBelcher } from '../../examples/graphql/personas';
+
+const definitions = simpleDefinitions.concat(graphqlDefinitions);
 
 /**
  * These are functional tests run against a local, mocked REST api.
@@ -10,7 +14,6 @@ import { homerSimpson, bartSimpson, montgomeryBurns } from '../../examples/stand
 
 test.before(() => {
   setDefinitions(definitions);
-  setLoggingLevel('info');
   return server.ready;
 });
 
@@ -57,7 +60,7 @@ test.serial('should expand templates', async (t) => {
   });
 });
 
-test.serial('should exapnd nested children in templates', async (t) => {
+test.serial('should expand nested children in templates', async (t) => {
   await seed(bartSimpson).then((output) => {
     t.true(output.user[0].firm[0].client[0].taxreturn[0].returnName === 'Some 1040');
     t.true(output.user[0].firm[0].client[1].taxreturn[0].returnName === 'Some 1040');
@@ -78,5 +81,11 @@ test.serial('should not create more rows than specified', async (t) => {
 test.serial('should attempt 3 retries should the requests fail', async (t) => {
   await seed(montgomeryBurns).then((output) => {
     t.true(output.user[0].firstName === 'Montgomery');
+  });
+});
+
+test.serial('should support graphql', async (t) => {
+  await seed(bobBelcher).then((output) => {
+    t.snapshot(output);
   });
 });

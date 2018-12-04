@@ -58,3 +58,9 @@ test('can handle booleans passed in as strings to expression functions', (t) => 
   const args = expressionFunctions.phone.getCall(0).args; //eslint-disable-line
   t.true(args[0] === true);
 });
+
+test('can handle graphql strings as params', (t) => {
+  const input = 'I am a graphql query';
+  const result = recursivelyParsePersonaParams(input);
+  t.true(input === result);
+});
