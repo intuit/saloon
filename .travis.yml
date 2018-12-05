@@ -1,4 +1,6 @@
-language: javascript
+language: node_js
+node_js:
+  - node
 sudo: false
-install: npm install
-script: npm test
+install: yarn install
+script: yarn test
