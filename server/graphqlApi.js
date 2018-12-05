@@ -3,10 +3,6 @@
 import { graphqlRestify } from 'apollo-server-restify';
 import { makeExecutableSchema } from 'graphql-tools';
 
-function buildID() {
-  return Math.ceil(Math.random() * 100000000);
-}
-
 const menus = [];
 const menuitems = [];
 
@@ -52,7 +48,7 @@ export default function graphqlApi(server) {
     Mutation: {
       addMenu: (root, { name, userId }) => {
         const entity = {
-          id: buildID(),
+          id: '12345',
           userId,
           name,
           menuitemIds: [],
@@ -62,7 +58,7 @@ export default function graphqlApi(server) {
       },
       addMenuItem: (root, { name, price, menuId }) => {
         const entity = {
-          id: buildID(),
+          id: '56789',
           name,
           price,
           menuId,
