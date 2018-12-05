@@ -84,9 +84,9 @@ export default function restApi(server) {
     const newIngredient = req.params;
 
     newIngredient.ingredient_id = '432';
-    restaurants.push(newIngredient);
+    ingredients.push(newIngredient);
 
     res.send(201, newIngredient);
     return next();
   });
-};
+}

@@ -1,5 +1,3 @@
-import defaultsDeep from 'lodash.defaultsdeep';
-
 import getRequestAdapter from './requestAdapters';
 import logger from './logger';
 import DefinitionRegistry from './definitions';
