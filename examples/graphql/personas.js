@@ -33,7 +33,6 @@ export const bobBelcher = [
             children: [
               {
                 type: 'ingredient',
-                url: 'http://localhost:3000/api/ingredient',
                 params: {
                   name: 'Ground Beef',
                   cost: 3,
@@ -41,7 +40,6 @@ export const bobBelcher = [
               },
               {
                 type: 'ingredient',
-                url: 'http://localhost:3000/api/ingredient',
                 params: {
                   name: 'Bun',
                   cost: 1,
