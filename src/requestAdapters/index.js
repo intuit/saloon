@@ -1,13 +1,14 @@
-import restAdapter from './rest';
+import RestAdapter from './Rest';
+import GraphqlAdapter from './Graphql';
 
 const DEFAULT_ADAPTER = 'rest';
 
 export const requestAdapters = {
-  rest: restAdapter,
+  rest: RestAdapter,
+  graphql: GraphqlAdapter,
 };
 
-export default function getRequestAdapter(resource) {
-  return {
-    execute: requestAdapters[resource.transport || DEFAULT_ADAPTER],
-  };
+export default function getRequestAdapter(definition, resource) {
+  const Adapter = requestAdapters[definition.transport || DEFAULT_ADAPTER];
+  return new Adapter(definition, resource);
 }

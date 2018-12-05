@@ -1,5 +1,3 @@
-import defaultsDeep from 'lodash.defaultsdeep';
-
 import getRequestAdapter from './requestAdapters';
 import logger from './logger';
 import DefinitionRegistry from './definitions';
@@ -63,13 +61,11 @@ class Seeder {
     const newParentData = { ...parentData };
 
     const execute = (resource, definition, resolve, reject) => {
-      const data = defaultsDeep(resource.params, definition.body);
-
       logger.info(`Seeding ${resource.type}`);
-      logger.debug(data);
 
-      getRequestAdapter(resource)
-        .execute(definition, data)
+      getRequestAdapter(definition, resource)
+        .constructPayload()
+        .execute()
         .then(this._saveSuccess.bind(this, resource, resolve, newParentData))
         .catch((e) => {
           if (!this._retries[resource.id]) {

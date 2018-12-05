@@ -57,6 +57,10 @@ export function shouldParseValue(value) {
  * default {} for layer makes params a non required field in the persona
  */
 function recursePersonaParams(layer = {}, callback) {
+  if (typeof layer !== 'object') {
+    return layer;
+  }
+
   return Object.keys(layer).reduce((accumulator, key) => {
     const newAccumulator = { ...accumulator };
     const value = layer[key];
