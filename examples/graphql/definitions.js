@@ -5,19 +5,34 @@ export default [
   },
   {
     type: 'menu',
-    transport: 'graphql',
+    query: `
+      mutation ($userId: ID, $name: String) {
+        addMenu(userId: $userId, name: $name) {
+          id,
+          name,
+          userId
+        }
+      }
+    `,
     variables: data => ({
       userId: data.restaurant.restaurant_id,
-      name: 'Bobs Burgers',
     }),
     url: 'http://localhost:3000/graphql',
   },
   {
     type: 'menuitem',
-    transport: 'graphql',
+    query: `
+      mutation ($menuId: ID) {
+        addMenuItem(name: "Hamburger", price: 10, menuId: $menuId) {
+          id,
+          name,
+          price,
+          menuId
+        }
+      }
+    `,
     variables: data => ({
       menuId: data.restaurant.menu[0].addMenu.id,
-      price: 10,
     }),
     url: 'http://localhost:3000/graphql',
   },

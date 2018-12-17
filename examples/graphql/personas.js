@@ -8,28 +8,15 @@ export const bobBelcher = [
     children: [
       {
         type: 'menu',
-        params: `
-          mutation ($userId: ID, $name: String) {
-            addMenu(userId: $userId, name: $name) {
-              id,
-              name,
-              userId
-            }
-          }
-        `,
+        params: {
+          name: 'Bobs Burgers',
+        },
         children: [
           {
             type: 'menuitem',
-            params: `
-              mutation ($menuId: ID) {
-                addMenuItem(name: "Hamburger", price: 10, menuId: $menuId) {
-                  id,
-                  name,
-                  price,
-                  menuId
-                }
-              }
-            `,
+            params: {
+              price: 10,
+            },
             children: [
               {
                 type: 'ingredient',

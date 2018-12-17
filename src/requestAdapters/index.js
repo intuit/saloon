@@ -9,6 +9,6 @@ export const requestAdapters = {
 };
 
 export default function getRequestAdapter(definition, resource) {
-  const Adapter = requestAdapters[definition.transport || DEFAULT_ADAPTER];
+  const Adapter = requestAdapters[definition.query ? 'graphql' : DEFAULT_ADAPTER];
   return new Adapter(definition, resource);
 }
