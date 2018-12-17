@@ -83,9 +83,9 @@ yarn run example:graphql // A more complex example involving both REST and Graph
 Definitions tell the seeder information about each resource defined in the persona. Think of each definition as each one of your REST APIs.
 - **method** (string|function) - HTTP method, defaults to "post"
 - **endpoint** (string|function) _required_ - Resource URL
-- **transport** (string|function) - "rest" or "graphql", defaults to "rest"
 - **headers** (object|function) - All headers required for the request
 - **body** (object|function) - Default request body, props can be overridden by the persona (_REST ONLY_)
+- **query** (string|function) - GraphQL query string (_GRAPHQL ONLY_)
 - **variables** (object|function) - Default GraphQL query/mutation variables (_GRAPHQL ONLY_)
 - **throttle** (number|function) - Throttle requests for this definition (some services can't handle concurrent requests)
 ```javascript
@@ -113,7 +113,7 @@ export default {
 # Personas
 A test suite will have a collection of personas to test different scenarios and use cases. Persona data is modeled as parent-child relationships.
 - **type** (string) _required_ - Resource type, must have a definition with the same name
-- **params** (object|string) - Request body _OR_ GraphQL query/mutation string
+- **params** (object|string) - Request body _OR_ GraphQL variables
 - **children** (array) - An array of children resources which will be seeded after the parent is finished.
 - **childrenTemplate** (object) - A template for dynamically generating children.
 - **childrenCount** (number) - The number of children to generate, using the template
@@ -130,17 +130,7 @@ A test suite will have a collection of personas to test different scenarios and 
     },
     "children": [
       {
-        "type": "client",
-        "params": `
-          mutation ($menuId ID) {
-            addMenuItem(name: "Hamburger", price: 10, menuId: $menuId) {
-              id,
-              name,
-              price,
-              menuId
-            }
-          }
-        `
+        "type": "client"
       }
     ]
   }
