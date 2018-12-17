@@ -1,6 +1,8 @@
 # saloon
 ## Persona-Based Test Seeding
 [![Build Status](https://travis-ci.org/intuit/saloon.svg?branch=master)](https://travis-ci.org/intuit/saloon) [![GitHub release](https://img.shields.io/github/release/intuit/saloon.svg)](https://github.com/intuit/saloon/releases)
+[![Known Vulnerabilities](https://snyk.io/test/github/intuit/saloon/badge.svg?targetFile=package.json)](https://snyk.io/test/github/intuit/saloon?targetFile=package.json)
+
 
 ### Are you:
 1. Tired of manually maintaining test data?
