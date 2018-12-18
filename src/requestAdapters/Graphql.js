@@ -23,7 +23,7 @@ class GraphqlAdapter extends BaseRequestAdapter {
       },
     })
       .then(({ data }) => {
-        if (!data.data && data.errors.length > 0) {
+        if (data.errors.length > 0) {
           throw new Error(JSON.stringify(data.errors));
         }
         return data;
