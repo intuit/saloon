@@ -22,9 +22,10 @@ class GraphqlAdapter extends BaseRequestAdapter {
         variables: this._variables,
       },
     })
-      .then(({ data }) => {
-        if (data.errors.length > 0) {
-          throw new Error(JSON.stringify(data.errors));
+      .then(({ data = {} }) => {
+        const { errors = [] } = data;
+        if (errors.length > 0) {
+          throw new Error(JSON.stringify(errors));
         }
         return data;
       });
