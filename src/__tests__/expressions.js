@@ -32,6 +32,8 @@ test('can express nested expressions in arrays', (t) => {
       foo: [{ bar: '{{bool()}}' }, { test: [{ supernested: '{{bool()}}' }] }],
     },
   });
+  t.true(Array.isArray(result.test.foo));
+  t.true(Array.isArray(result.test.foo[1].test));
   t.true(typeof result.test.foo[0].bar === 'boolean');
   t.true(typeof result.test.foo[1].test[0].supernested === 'boolean');
   t.true(typeof result.test.bar === 'boolean');
