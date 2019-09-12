@@ -1,6 +1,6 @@
 {
   "name": "saloon",
-  "version": "1.4.7",
+  "version": "1.4.8",
   "description": "An E2E Test Seeder for Enterprise Web Applications",
   "main": "dist/saloon.js",
   "module": "dist/module/main.js",
