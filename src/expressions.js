@@ -58,7 +58,9 @@ export function shouldParseValue(value) {
  */
 function recursePersonaParams(layer = {}, callback) {
   if (typeof layer !== 'object') {
-    return layer;
+    return callback(layer);
+  } else if (Array.isArray(layer)) {
+    return layer.map(it => recursePersonaParams(it, callback));
   }
 
   return Object.keys(layer).reduce((accumulator, key) => {
