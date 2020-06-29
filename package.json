@@ -61,6 +61,7 @@
     "npm-run-all": "^4.0.2",
     "nyc": "10.3.2",
     "restify": "^4.x",
+    "set-value": "^2.0.1",
     "sinon": "4.4.2",
     "webpack": "^4.8.3",
     "webpack-cli": "^2.1.3",
