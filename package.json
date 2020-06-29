@@ -37,7 +37,7 @@
     "lodash.defaultsdeep": "^4.6.1",
     "lodash.get": "^4.4.2",
     "lodash.set": "^4.3.2",
-    "snyk": "^1.214.0"
+    "snyk": "^1.258.2"
   },
   "devDependencies": {
     "apollo-server-restify": "^1.3.6",
