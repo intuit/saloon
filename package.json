@@ -37,7 +37,7 @@
     "lodash.defaultsdeep": "^4.6.1",
     "lodash.get": "^4.4.2",
     "lodash.set": "^4.3.2",
-    "snyk": "^1.316.1"
+    "snyk": "^1.1064.0"
   },
   "devDependencies": {
     "acorn": "^5.7.4",
